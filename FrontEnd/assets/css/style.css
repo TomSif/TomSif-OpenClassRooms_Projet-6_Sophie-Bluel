@@ -54,6 +54,15 @@ body {
 	font-size: 14px;
 	background-color: #fffef8;
 }
+
+.hidden{
+	visibility: hidden;
+}
+
+.display-none{
+	display: none;
+}
+
 header {
 	display: flex;
 	justify-content: space-between;
@@ -140,8 +149,29 @@ nav li a img{
 }
 #portfolio h2 {
 	text-align: center;
-	margin-bottom: 1em;
+	margin-right: 2rem;
 }
+
+.portofolio-title-container{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-bottom: 3.8rem;
+	margin-top: 5rem;
+}
+
+#btnModifier{
+	background: none;
+	border: none;
+	cursor: pointer;
+}
+
+#btnModifier i {
+	padding-right: 0.625rem;
+}
+
+
+
 #menu-categories{
 	display: flex;
 	flex-direction: row;
@@ -307,4 +337,89 @@ footer nav ul {
 	font-weight: 600;
 	color:#3d3d3d ;
 	padding-bottom: 0.5rem;
+}
+
+/* +-----------------------------------------------------------+
+                       Modal  css FILE
++-----------------------------------------------------------+ */
+
+dialog {
+	width: 100%;
+	max-width: 39rem;
+	padding: 0;
+	border: none;
+	box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+	background-color: white;
+	border-radius: 1rem;
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+  }
+
+dialog::backdrop {
+background: rgba(0, 0, 0, 0.3); /* couleur de l'overlay */
+backdrop-filter: blur(2px);    /* flou éventuel */
+}
+
+#close-modal{
+	position: absolute;
+	right:36px;
+	top:36px;
+	background: none;
+	border: none;
+	font-size: 12px;
+}
+
+.modal-title{
+	font-family: 'Work Sans';
+	font-size: 26px;
+	color: black;
+	font-weight: 500;
+	text-align: center;
+	margin-top: 60px;
+}
+
+#galery-modal{
+	display: grid;
+	grid-template-columns: repeat(5,1fr);
+	margin: 0 5rem 0 5rem;
+	padding: 2.875rem 0 4.2rem 0;
+	column-gap: 9px;
+	row-gap: 1.8125rem;
+	border-bottom: 1px solid #B3B3B3;
+}
+.thumbnail-container{
+	position: relative;
+}
+
+.thumbnail{
+	width: 4.8rem;
+	height: 6.4rem;
+}
+.fa-trash {
+	position: absolute;
+	font-size: 8.1px;
+	top: 0.2rem;
+	right: 0.2rem;
+	color: white;
+	background-color: rgba(0,0,0,0.8);
+	padding: 0.3em;
+	border-radius: 0.2em;
+	cursor: pointer;
+}
+
+#modalAddBtn{
+	margin-top: 38px;
+	margin-bottom: 45px;
+	background-color:#1D6154;
+	color:#fffef8;
+	font-family: 'Syne', sans-serif;
+	line-height: 1;
+	font-weight: bold;
+	padding: 10px 49px;
+	border: none;
+	border-radius: 1rem;
+
 }

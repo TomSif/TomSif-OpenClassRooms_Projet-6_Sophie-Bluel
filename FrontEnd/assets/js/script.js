@@ -24,25 +24,43 @@ function getTravaux() {
 // Fonction pour afficher les travaux dans le DOM
 function afficherTravaux(data) {
   const galerieContainer = document.querySelector('.gallery');  // Sélectionne le conteneur de la galerie
+  const modalgalery = document.getElementById("galery-modal");
   galerieContainer.innerHTML = '';  // Vide la galerie avant d'ajouter de nouveaux éléments
+  modalgalery.innerHTML = '';  // Vide la modale avant d'ajouter de nouveaux éléments
 
   // Parcours chaque élément dans le tableau de données
   data.forEach(travail => {
-    const figure = document.createElement('figure');  // Crée un élément <figure>
-    
-    const img = document.createElement('img');  // Crée l'élément <img>
-    img.src = travail.imageUrl;  // Utilise "imageUrl" pour définir la source de l'image
-    img.alt = travail.title;  // Utilise le titre du travail comme texte alternatif pour l'image
-    
-    const caption = document.createElement('figcaption');  // Crée l'élément <figcaption>
-    caption.textContent = travail.title;  // Définir le texte du titre
-    
-    // Ajoute l'image et la légende dans l'élément <figure>
-    figure.appendChild(img);
-    figure.appendChild(caption);
-    
-    // Ajoute l'élément <figure> dans le conteneur de la galerie
-    galerieContainer.appendChild(figure);
+    // Crée un élément <figure> pour la galerie principale
+    const figureGalerie = document.createElement('figure');
+    const imgGalerie = document.createElement('img');
+    imgGalerie.src = travail.imageUrl;
+    imgGalerie.alt = travail.title;
+    const captionGalerie = document.createElement('figcaption');
+    captionGalerie.textContent = travail.title;
+    figureGalerie.appendChild(imgGalerie);
+    figureGalerie.appendChild(captionGalerie);
+    galerieContainer.appendChild(figureGalerie);
+
+// Crée un conteneur pour l'image et l'icône
+const container = document.createElement('div');
+container.classList.add("thumbnail-container");
+
+// Crée l'élément image
+const imgModal = document.createElement('img');
+imgModal.src = travail.imageUrl;
+imgModal.alt = travail.title;
+imgModal.classList.add("thumbnail");
+
+// Crée l'icône
+const icone = document.createElement('i');
+icone.className = 'fa-solid fa-trash';
+
+// Ajoute l'image et l'icône au conteneur
+container.appendChild(imgModal);
+container.appendChild(icone);
+
+// Ajoute le conteneur à la galerie modale
+modalgalery.appendChild(container);
   });
 }
 

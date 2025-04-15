@@ -25,14 +25,15 @@
 <main>
     <div class="login">
         <h2>Log In</h2>
-        <FORM:post class="login_container">
+        <FORM id="login-form" class="login_container">
             <label for="email">E-mail</label>
             <input type="email" name="email" id="email">
             <label for="password">Mot de passe</label>
             <input type="password" name="password" id="password">
             <button type="submit">Se connecter</button>
             <a href="#">Mot de passe oublié</a>
-        </FORM:post>
+        </FORM>
+		<p id="message"></p>
     </div>
 </main>
 
@@ -44,5 +45,6 @@
 	</nav>
 </footer>
 <script src="../assets/js/script.js"></script>
+<script src="../assets/js/login.js"></script>
 </body>
 </html>
