@@ -105,8 +105,8 @@ function activerBouton(boutonActif) {
 //fonction de gestion des fonctions du login
 document.addEventListener('DOMContentLoaded', () => {
     const banner = document.getElementById('banner');
-    const loginButton = document.getElementById('login'); // Assumant que vous avez un lien de login
-    // const logoutButton = document.getElementById('logout'); // Un bouton de déconnexion à ajouter
+    const loginButton = document.getElementById('login');
+    const openBtn = document.getElementById('btnModifier');
     
     // Vérifier si l'utilisateur est connecté en admin
     const isAdmin = localStorage.getItem('isAdmin') === 'true';
@@ -114,6 +114,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (isAdmin) {
       // Afficher la bannière admin
       banner.classList.remove('display-none');
+      openBtn.classList.remove('display-none');
+      
       
       // Facultatif : changer le bouton login en bouton logout
       if (loginButton) {
@@ -124,6 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
           // Déconnexion : supprimer les données du localStorage
           localStorage.removeItem('token');
           localStorage.removeItem('isAdmin');
+          openBtn.classList.add('display-none');
           // Recharger la page pour rafraîchir l'interface
           window.location.reload();
         });

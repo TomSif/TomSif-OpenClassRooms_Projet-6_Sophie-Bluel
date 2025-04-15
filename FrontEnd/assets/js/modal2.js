@@ -1,7 +1,21 @@
+// Fonction globale
+function fermerModal() {
+    const modal = document.getElementById("modal");
+    if (modal) {
+        modal.close();
+        modal.classList.toggle('hidden');
+        if (window.modalManager) {
+            window.modalManager.updateModalState({ isOpen: false });
+            window.modalManager.resetGalerieModal();
+        }
+    }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     const modal = document.getElementById("modal");
     const openBtn = document.getElementById('btnModifier');
     const closeBtn = document.getElementById('close-modal');
+    const closeSdeBtn = document.getElementById('close-main-modal-from-secondary');
     
     // État de la modale
     let modalState = {
@@ -20,16 +34,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // Fonction pour fermer la modale et réinitialiser son contenu
-    function fermerModal() {
-        modal.close();
-        modal.classList.toggle('hidden');
-        updateModalState({ isOpen: false });
-        
-        // On vide le contenu de la galerie modale après sa fermeture
-        window.modalManager.resetGalerieModal();
-    }
-
     // Événement d'ouverture de la modale
     openBtn.addEventListener('click', () => {
         modal.showModal();
@@ -41,6 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
     closeBtn.addEventListener('click', () => {
         fermerModal();
     });
+
 
     // Événement de fermeture de la modale en cliquant à l'extérieur
     modal.addEventListener('click', (e) => {
@@ -98,22 +103,28 @@ function chargerGalerieModal(data) {
         // Ajoute le conteneur à la galerie modale
         modalgalery.appendChild(container);
     });
-
-    // // Ajouter un bouton pour l'ajout de nouvelles images
-    // const ajouterContainer = document.createElement('div');
-    // ajouterContainer.classList.add("thumbnail-container", "add-image-container");
-    
-    // const ajouterBtn = document.createElement('div');
-    // ajouterBtn.classList.add("add-image-btn");
-    // ajouterBtn.innerHTML = '<i class="fa-solid fa-plus"></i><span>Ajouter une photo</span>';
-    
-    // Ajouter l'événement pour ouvrir le formulaire d'ajout
-    // ajouterBtn.addEventListener('click', () => {
-    //     if (window.ouvrirFormulaireAjout) {
-    //         window.ouvrirFormulaireAjout();
-    //     }
-    // });
-    
-    // ajouterContainer.appendChild(ajouterBtn);
-    // modalgalery.appendChild(ajouterContainer);
 }
+
+    //fonction pour deuxième modale
+    const secondaryModal = document.getElementById('secondary-modal');
+    const closeSecondaryBtn = document.getElementById('close-secondary-modal');
+    const openSecondaryBtn = document.getElementById('open-secondary');
+    const closePrimary = document.getElementById('close-main-modal-from-secondary');
+
+    // Ouvrir la modale secondaire depuis la principale
+    openSecondaryBtn.addEventListener('click', () => {
+        secondaryModal.classList.toggle("display-none");
+        secondaryModal.showModal();
+  });
+  
+  // Fermer la modale secondaire
+    closeSecondaryBtn.addEventListener('click', () => {
+    secondaryModal.close();
+    secondaryModal.classList.toggle("display-none");
+  });
+
+    closePrimary.addEventListener('click', () => {
+        secondaryModal.close();
+        fermerModal();
+        console.log('le bouton est clické');
+  });

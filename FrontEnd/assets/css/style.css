@@ -396,6 +396,7 @@ backdrop-filter: blur(2px);    /* flou éventuel */
 	background: none;
 	border: none;
 	font-size: 12px;
+	z-index: 99;
 }
 
 .modal-title{
@@ -436,7 +437,7 @@ backdrop-filter: blur(2px);    /* flou éventuel */
 	cursor: pointer;
 }
 
-#modalAddBtn{
+#open-secondary{
 	margin-top: 38px;
 	margin-bottom: 45px;
 	background-color:#1D6154;
@@ -448,4 +449,38 @@ backdrop-filter: blur(2px);    /* flou éventuel */
 	border: none;
 	border-radius: 1rem;
 
+}
+
+/* +-----------------------------------------------------------+
+                       Secondary Modal  css FILE
++-----------------------------------------------------------+ */
+
+#secondary-modal{
+	background-color: white;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 687px;
+	width: 100%;
+}
+
+.secondary-btns-container {
+	display: flex;
+	justify-content: space-between;
+	width: 92%;
+	margin: 36px;
+	position: absolute;
+	top: 0;
+}
+
+#close-secondary-modal{
+	background: none;
+	border: none;
+	font-size: 12px;
+}
+
+#close-main-modal-from-secondary{
+	background: none;
+	border: none;
+	font-size: 12px;
 }
