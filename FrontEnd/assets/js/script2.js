@@ -102,100 +102,33 @@ function activerBouton(boutonActif) {
   boutonActif.classList.add('category-button-active');
 }
 
-// Fonction pour confirmer et exécuter la suppression d'un travail
-function confirmerSuppression(id) {
-  if (confirm(`Êtes-vous sûr de vouloir supprimer cette œuvre ?`)) {
-    supprimerTravail(id);
-  }
-}
-
-// Fonction pour supprimer un travail via l'API
-function supprimerTravail(id) {
-  // Récupérer le token d'authentification depuis le localStorage
-  const token = localStorage.getItem('token');
+//fonction de gestion des fonctions du login
+document.addEventListener('DOMContentLoaded', () => {
+    const banner = document.getElementById('banner');
+    const loginButton = document.getElementById('login'); // Assumant que vous avez un lien de login
+    // const logoutButton = document.getElementById('logout'); // Un bouton de déconnexion à ajouter
+    
+    // Vérifier si l'utilisateur est connecté en admin
+    const isAdmin = localStorage.getItem('isAdmin') === 'true';
+    
+    if (isAdmin) {
+      // Afficher la bannière admin
+      banner.classList.remove('display-none');
+      
+      // Facultatif : changer le bouton login en bouton logout
+      if (loginButton) {
+        loginButton.textContent = 'Logout';
+        loginButton.href = '#'; // Enlever le lien vers la page login
+        loginButton.addEventListener('click', (e) => {
+          e.preventDefault();
+          // Déconnexion : supprimer les données du localStorage
+          localStorage.removeItem('token');
+          localStorage.removeItem('isAdmin');
+          // Recharger la page pour rafraîchir l'interface
+          window.location.reload();
+        });
+      }
+    }});
   
-  if (!token) {
-    alert('Vous devez être connecté pour effectuer cette action');
-    return;
-  }
-
-  fetch(`${apiUrl}/${id}`, {
-    method: 'DELETE',
-    headers: {
-      'Authorization': `Bearer ${token}`
-    }
-  })
-  .then(response => {
-    if (!response.ok) {
-      throw new Error('Erreur lors de la suppression');
-    }
-    
-    // Mise à jour locale des données après suppression réussie
-    window.travaux = window.travaux.filter(travail => travail.id !== id);
-    
-    // Mettre à jour la galerie principale
-    afficherGaleriePrincipale(window.travaux);
-    
-    // Mettre à jour la galerie de la modale si elle est ouverte
-    if (window.modalManager && window.modalManager.getState().isOpen) {
-      chargerGalerieModal(window.travaux);
-    }
-  })
-  .catch(error => {
-    console.error('Erreur lors de la suppression :', error);
-    alert('Une erreur est survenue lors de la suppression');
-  });
-}
-
-// Fonction pour ouvrir le formulaire d'ajout (à développer)
-function ouvrirFormulaireAjout() {
-  // Logique pour afficher le formulaire d'ajout
-  console.log('Ouverture du formulaire d\'ajout');
-  // Vous pourriez ici basculer vers une autre vue de la modale, etc.
-}
-
-// Fonction pour ajouter un nouveau travail
-function ajouterTravail(formData) {
-  const token = localStorage.getItem('token');
-  
-  if (!token) {
-    alert('Vous devez être connecté pour effectuer cette action');
-    return Promise.reject('Non authentifié');
-  }
-
-  return fetch(apiUrl, {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${token}`
-    },
-    body: formData // FormData contenant title, category et image
-  })
-  .then(response => {
-    if (!response.ok) {
-      throw new Error('Erreur lors de l\'ajout');
-    }
-    return response.json();
-  })
-  .then(nouveauTravail => {
-    // Ajouter le nouveau travail à notre liste locale
-    window.travaux.push(nouveauTravail);
-    
-    // Mettre à jour la galerie principale
-    afficherGaleriePrincipale(window.travaux);
-    
-    // Mettre à jour la galerie de la modale si elle est ouverte
-    if (window.modalManager && window.modalManager.getState().isOpen) {
-      chargerGalerieModal(window.travaux);
-    }
-    
-    return nouveauTravail;
-  });
-}
-
-// Exposer les fonctions pour qu'elles soient accessibles depuis modal.js
-window.confirmerSuppression = confirmerSuppression;
-window.ouvrirFormulaireAjout = ouvrirFormulaireAjout;
-window.ajouterTravail = ajouterTravail;
-
 // Appel de la fonction pour récupérer les travaux et mettre à jour la galerie
 getTravaux();

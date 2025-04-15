@@ -1,5 +1,6 @@
 const form = document.getElementById('login-form');
 const message = document.getElementById('message');
+const banner = document.getElementById('banner');
 
 
 form.addEventListener('submit', async (e) => {
@@ -26,10 +27,13 @@ form.addEventListener('submit', async (e) => {
 
     // On stocke le token
     localStorage.setItem('token', token);
+    localStorage.setItem('isAdmin', 'true');
+    console.log("user is logged");
+    // Indicateur que l'utilisateur est connecté en admin
     message.textContent = 'Connexion réussie !';
     message.style.color = 'green';
 
-    window.location.href = '../index.html'
+    window.location.href = '../index.html';
 
 
   } catch (error) {
