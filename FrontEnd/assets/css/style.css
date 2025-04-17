@@ -454,14 +454,14 @@ backdrop-filter: blur(2px);    /* flou éventuel */
 /* +-----------------------------------------------------------+
                        Secondary Modal  css FILE
 +-----------------------------------------------------------+ */
-
 #secondary-modal{
 	background-color: white;
 	display: flex;
 	align-items: center;
-	justify-content: center;
+	justify-content: flex-start;
 	height: 687px;
 	width: 100%;
+	flex-direction: column;
 }
 
 .secondary-btns-container {
@@ -483,4 +483,149 @@ backdrop-filter: blur(2px);    /* flou éventuel */
 	background: none;
 	border: none;
 	font-size: 12px;
+}
+
+.main-container-secondary-modal{
+	max-width: 420px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    margin-top: 60px;
+	width:100%;
+}
+.secondary-modal-title{
+	font-family: 'Work Sans';
+	font-size: 26px;
+	font-weight: 400;
+	line-height: 1;
+}
+
+.container-pictures-to-add{
+	background-color: #e8f1f648;
+	margin-top: 36px;
+	width:100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.fa-image{
+	font-size: 68px;
+	color: #b9c5cc;
+	margin-top: 22px;
+}
+
+.bouton-ajouter{
+	background-color: #Cbd6dc;
+	color: #306685;
+	font-family: "Work Sans", sans-serif;
+	font-size: 14px;
+	line-height: 1;
+	font-weight: 600;
+	padding: 10px 33px;
+	border-radius: 1.5rem;
+	margin-top: 10px;
+	border: none;
+	cursor: pointer;
+	transition: transform 0.1s ease-in-out;
+	transition: box-shadow 0.1s ease-in-out;
+}
+
+.bouton-ajouter:hover{
+	transform: scale(0.98);
+	box-shadow: 0 4px 14px 0 rgba(0, 0, 0, 0.09);
+}
+
+.text-secondary-modal{
+	font-family: 'Work Sans', sans-serif;
+	font-size: 10px;
+	color: #444444;
+	margin-top: 7px;
+	margin-bottom: 19px;
+}
+
+.form-secondary-modal{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-start;
+	width:100%;
+	padding-top: 30px;
+}
+
+.label-container{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-start;
+	width:100%;
+	padding-bottom: 26px;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.315);
+
+}
+
+.label{
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	justify-content: flex-start;
+	width:100%;
+	margin-bottom: 21px;
+}
+
+label span {
+	font-family: 'Work Sans', sans-serif;
+	font-size: 14px;
+	font-weight: 500;
+	line-height: 1;
+	margin-bottom: 11px;
+}
+
+.label-input{
+	width: 100%;
+	width: 100%;
+    padding: 0 !important;
+    border-width: 1px;
+	height: 51px;
+	box-shadow: 0 4px 14px 0 rgba(0, 0, 0, 0.09);
+	border : none;
+}
+
+select {
+	width: 100%;
+	width: 100%;
+	width: 100%;
+    padding: 0 !important;
+    border-width: 1px;
+	height: 51px;
+	box-shadow: 0 4px 14px 0 rgba(0, 0, 0, 0.09);
+	border : none;
+}
+
+#btnValider {
+	background-color: #A7A7A7;
+	color: white;
+	font-family: 'Syne', sans-serif;
+	font-weight: bold;
+	font-size: 14px;
+	line-height: 1;
+	padding: 15px 92px;
+	border-radius: 1.5rem;
+	border: none;
+	text-align: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-top: 2rem;
+	cursor: pointer;
+	transition: transform 0.1s ease-in-out;
+	transition: box-shadow 0.1s ease-in-out;
+	transition: background-color 0.15s ease-in-out;
+}
+ 
+#btnValider:hover, #btnValider:active{
+	background-color: #1D6154;
+	transform: scale(0.98);
+	box-shadow: 0 4px 14px 0 rgba(0, 0, 0, 0.09);
 }

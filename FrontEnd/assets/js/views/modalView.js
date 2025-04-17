@@ -1,3 +1,5 @@
+import { getUniqueCategories } from '../models/categoryModel.js';
+
 export function chargerGalerieModal(data) {
     const modalgalery = document.getElementById("galery-modal");
     
@@ -54,6 +56,8 @@ export function chargerGalerieModal(data) {
     if (window.modalManager) {
         window.modalManager.updateModalState({ isLoaded: true });
     }
+
+    renderCategorySelect(data);
 }
 
 // Fonction pour activer/désactiver le mode édition
@@ -95,4 +99,60 @@ export function updateWorksGallery(travaux) {
       chargerGalerieModal(travaux);
     }
   }
+  
+
+
+export function renderCategorySelect(travaux) {
+    console.log('renderCategorySelect appelée avec :', travaux); // ← DEBUG 
+  const select = document.getElementById('categorie');
+  if (!select) {
+    console.warn('Le select #categorie est introuvable dans le DOM.');
+    return;
+  } 
+
+  const uniqueCategories = getUniqueCategories(travaux);
+
+  select.innerHTML = '<option value="">Choisir une catégorie</option>';
+
+  uniqueCategories.forEach(cat => {
+    const option = document.createElement('option');
+    option.value = cat.id;
+    option.textContent = cat.name;
+    select.appendChild(option);
+  });
+}
+
+// document.addEventListener("uploadSuccess", (e) => {
+//     const message = document.createElement("p");
+//     message.textContent = "✅ Le travail a bien été ajouté !";
+//     message.style.color = "green";
+//     message.style.textAlign = "center";
+  
+//     // Par exemple, l'ajouter dans la modale :
+//     const container = document.querySelector(".ajout-photo");
+//     if (container) {
+//       container.appendChild(message);
+  
+//       // Disparition après 3 secondes
+//       setTimeout(() => {
+//         message.remove();
+//       }, 3000);
+//     }
+//   });
+  
+//   document.addEventListener("uploadFail", () => {
+//     const message = document.createElement("p");
+//     message.textContent = "❌ Une erreur est survenue lors de l'ajout.";
+//     message.style.color = "red";
+//     message.style.textAlign = "center";
+  
+//     const container = document.querySelector(".ajout-photo");
+//     if (container) {
+//       container.appendChild(message);
+  
+//       setTimeout(() => {
+//         message.remove();
+//       }, 3000);
+//     }
+//   });
   
