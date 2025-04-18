@@ -3,9 +3,7 @@ import { renderGalerie } from '../views/galleryView.js';
 import { chargerGalerieModal } from '../views/modalView.js';
 import { renderCategoryButtons } from '../views/categoryView.js';
 import { uploadWork } from '../models/workUploadModel.js';
-
-// Initialisation de la variable uploadSuccessful à false
-let uploadSuccessful = false;
+import { afficherMessageUploadSucces, afficherMessageUploadErreur, fermerSecondaryModal } from "../views/modalView.js";
 
 export async function initTravaux() {
   try {
@@ -13,10 +11,10 @@ export async function initTravaux() {
     window.travaux = travaux;
     renderGalerie(travaux);
     renderCategoryButtons(travaux, (filtered) => {
-        renderGalerie(filtered);
-      });
+      renderGalerie(filtered);
+    });
 
-    // Met à jour la modale si elle est ouverte
+    // Si modale ouverte → recharger aussi la galerie modale
     if (window.modalManager?.getState().isOpen) {
       chargerGalerieModal(travaux);
     }
@@ -29,41 +27,45 @@ export async function handleWorkUpload(formElement) {
   const formData = new FormData(formElement);
   const token = window.localStorage.getItem('token');
 
-  // 🔎 Debug log AVANT l'envoi à l'API
+  // 🔍 Debug logs
   console.log("🔐 Token :", token);
-  console.log("📦 Contenu du FormData :");
+  console.log("📦 FormData :");
   for (let [key, value] of formData.entries()) {
     console.log(`${key} :`, value);
   }
 
   try {
     const newWork = await uploadWork(formData, token);
-    console.log('Nouveau travail ajouté :', newWork);
+    console.log('✅ Nouveau travail ajouté :', newWork);
 
     if (newWork) {
-      // 🔔 Émet un événement DOM personnalisé à succès
-      document.dispatchEvent(new CustomEvent("uploadSuccess", {
-        detail: { work: newWork }
-      }));
+      // 🔔 Événement personnalisé (upload réussi)
+      afficherMessageUploadSucces(); 
+      // ⏱️ Fermer la modale secondaire après un petit délai
+      setTimeout(() => {
+      fermerSecondaryModal();
+      }, 1560);
     }
 
-    // Ajoute le nouveau travail à la liste et met à jour l'affichage
-    window.travaux.push(newWork);
-    chargerGalerieModal(window.travaux);
-    if (window.updateGalleryView) {
-      window.updateGalleryView(window.travaux);
-    }
+    // 🔄 Rafraîchir toutes les galeries avec les données complètes depuis l'API
+    const refreshedTravaux = await fetchTravaux();
+    window.travaux = refreshedTravaux;
+    renderGalerie(refreshedTravaux);
+    chargerGalerieModal(refreshedTravaux);
+
+    // 🔁 Mettre à jour les boutons de filtres
+    renderCategoryButtons(refreshedTravaux, (filtered) => {
+      renderGalerie(filtered);
+    });
+
 
     formElement.reset(); // Réinitialise le formulaire
   } catch (err) {
-    console.error('Erreur lors de l’ajout du travail :', err);
+    console.error('❌ Erreur lors de l’ajout du travail :', err);
     alert(err.message || "Une erreur est survenue.");
-
-    // 🔔 Émet aussi un événement d'erreur si besoin
-    document.dispatchEvent(new CustomEvent("uploadFail"));
+    afficherMessageUploadErreur(); // 🔔 Message erreur
   }
 }
-
 
 export function initUploadForm() {
   const form = document.getElementById('form-ajout-travail');

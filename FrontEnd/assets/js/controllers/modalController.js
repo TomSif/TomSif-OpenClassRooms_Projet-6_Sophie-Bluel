@@ -156,48 +156,6 @@ export function setupModalButtons() {
     // Initialiser la gestion de l'authentification
     setupAuthenticationUI();
 
-    // Configurer la confirmation de suppression
-    // window.confirmerSuppression = (travauxId) => {
-    //     const token = localStorage.getItem('token');
-        
-    //     if (!token) {
-    //         console.error('Token non disponible, authentification requise');
-    //         return;
-    //     }
-        
-    //     if (confirm(`Voulez-vous vraiment supprimer cet élément ?`)) {
-    //         fetch(`http://localhost:5678/api/works/${travauxId}`, {
-    //             method: 'DELETE',
-    //             headers: {
-    //                 'Authorization': `Bearer ${token}`
-    //             }
-    //         })
-    //         .then(response => {
-    //             if (!response.ok) {
-    //                 throw new Error('Erreur lors de la suppression');
-    //             }
-                
-    //             // Mettre à jour la liste des travaux
-    //             if (window.travaux) {
-    //                 window.travaux = window.travaux.filter(item => item.id !== parseInt(travauxId));
-                    
-    //                 // Recharger les affichages
-    //                 if (window.updateGalleryView) {
-    //                     window.updateGalleryView(window.travaux);
-    //                 }
-                    
-    //                 // Mettre à jour la galerie modale
-    //                 chargerGalerieModal(window.travaux);
-    //             }
-    //         })
-    //         .catch(error => {
-    //             console.error('Erreur de suppression:', error);
-    //             alert('La suppression a échoué');
-    //         });
-    //     }
-    // };
-    // controller.js
-
     return {
         openMainModal,
         fermerModal,

@@ -508,6 +508,7 @@ backdrop-filter: blur(2px);    /* flou éventuel */
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	position: relative;
 }
 
 .fa-image{
@@ -628,4 +629,25 @@ select {
 	background-color: #1D6154;
 	transform: scale(0.98);
 	box-shadow: 0 4px 14px 0 rgba(0, 0, 0, 0.09);
+}
+
+.image-preview-container{
+	position: absolute;
+	z-index: 10;
+	top: 0;
+	display: flex;
+	align-items: center;
+	overflow: hidden;
+	max-height: 170px;
+	width:100%;
+}
+
+.image-preview-background{
+	background-color: #E8F1F6;
+}
+
+.image-preview {
+	height: 193px;
+	transform: translateY(-8px);
+	margin:auto;
 }

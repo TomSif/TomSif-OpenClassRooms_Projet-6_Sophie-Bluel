@@ -101,7 +101,7 @@ export function updateWorksGallery(travaux) {
   }
   
 
-
+//Fonction d'affichage des categories dans le menu select
 export function renderCategorySelect(travaux) {
     console.log('renderCategorySelect appelée avec :', travaux); // ← DEBUG 
   const select = document.getElementById('categorie');
@@ -122,37 +122,82 @@ export function renderCategorySelect(travaux) {
   });
 }
 
-// document.addEventListener("uploadSuccess", (e) => {
-//     const message = document.createElement("p");
-//     message.textContent = "✅ Le travail a bien été ajouté !";
-//     message.style.color = "green";
-//     message.style.textAlign = "center";
+//fonction d'affichage d'un message de succès à l'upload
+export function afficherMessageUploadSucces() {
+  const message = document.createElement("p");
+  message.textContent = "✅ Le travail a bien été ajouté !";
+  message.style.color = "green";
+  message.style.textAlign = "center";
+
+  const container = document.querySelector(".secondary-modal-title");
+  if (container) {
+    container.appendChild(message);
+    setTimeout(() => {
+      message.remove();
+    }, 1500);
+  }
+}
+
+//fonction d'affichage d'un message d'échec à l'upload
+export function afficherMessageUploadErreur() {
+  const message = document.createElement("p");
+  message.textContent = "❌ Une erreur est survenue lors de l'ajout.";
+  message.style.color = "red";
+  message.style.textAlign = "center";
+
+  const container = document.querySelector(".secondary-modal-title");
+  if (container) {
+    container.appendChild(message);
+    setTimeout(() => {
+      message.remove();
+    }, 3000);
+  }
+}
+
+//fonction pour fermer la deuxième modale quand l'upload s'est bien déroulé.
+export function fermerSecondaryModal() {
+  const secondaryModal = document.getElementById("secondary-modal");
+  if (secondaryModal) {
+    secondaryModal.close();
+    secondaryModal.classList.add("display-none");
+  }
+
+  // Réinitialiser les champs du formulaire
+  const form = secondaryModal.querySelector("form");
+  if (form) {
+    form.reset();
+  }
+
+  // Supprimer l'aperçu du fichier si nécessaire
+  const preview = secondaryModal.querySelector(".image-preview");
+  if (preview) {
+    preview.src = "";
+  }
+}
+
+//Fonction d'affichage de la miniature via l'input file
+document.getElementById('file-input').addEventListener('change', function(event) {
+    const file = event.target.files[0]; // Récupère le premier fichier sélectionné
+    if (file) {
+      const reader = new FileReader();
   
-//     // Par exemple, l'ajouter dans la modale :
-//     const container = document.querySelector(".ajout-photo");
-//     if (container) {
-//       container.appendChild(message);
+      // Quand le fichier est chargé, on met à jour l'image dans le DOM
+      reader.onload = function(e) {
+        const imagePreviewDiv = document.getElementById('image-preview');
+        imagePreviewDiv.innerHTML = ''; // On vide le div avant d'ajouter l'image
+        imagePreviewDiv.classList.toggle('image-preview-background');
   
-//       // Disparition après 3 secondes
-//       setTimeout(() => {
-//         message.remove();
-//       }, 3000);
-//     }
-//   });
+        const img = document.createElement('img'); // Crée une balise <img>
+        img.src = e.target.result; // Affecte le contenu du fichier chargé comme source de l'image
+        img.alt = 'Aperçu de l\'image'; // Alt text
+        img.style.maxWidth = '100%'; // Ajuste l'image pour qu'elle ne dépasse pas le conteneur
+        img.classList.add('image-preview');
   
-//   document.addEventListener("uploadFail", () => {
-//     const message = document.createElement("p");
-//     message.textContent = "❌ Une erreur est survenue lors de l'ajout.";
-//     message.style.color = "red";
-//     message.style.textAlign = "center";
+        imagePreviewDiv.appendChild(img); // Ajoute l'image dans le div
+      };
   
-//     const container = document.querySelector(".ajout-photo");
-//     if (container) {
-//       container.appendChild(message);
-  
-//       setTimeout(() => {
-//         message.remove();
-//       }, 3000);
-//     }
-//   });
+      // On lance la lecture du fichier
+      reader.readAsDataURL(file);
+    }
+  });
   
