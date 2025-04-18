@@ -176,28 +176,32 @@ export function fermerSecondaryModal() {
 }
 
 //Fonction d'affichage de la miniature via l'input file
-document.getElementById('file-input').addEventListener('change', function(event) {
-    const file = event.target.files[0]; // Récupère le premier fichier sélectionné
+const fileInput = document.getElementById('file-input');
+
+if (fileInput) {
+  fileInput.addEventListener('change', function(event) {
+    const file = event.target.files[0]; // Premier fichier sélectionné
     if (file) {
       const reader = new FileReader();
-  
-      // Quand le fichier est chargé, on met à jour l'image dans le DOM
+
       reader.onload = function(e) {
         const imagePreviewDiv = document.getElementById('image-preview');
-        imagePreviewDiv.innerHTML = ''; // On vide le div avant d'ajouter l'image
-        imagePreviewDiv.classList.toggle('image-preview-background');
-  
-        const img = document.createElement('img'); // Crée une balise <img>
-        img.src = e.target.result; // Affecte le contenu du fichier chargé comme source de l'image
-        img.alt = 'Aperçu de l\'image'; // Alt text
-        img.style.maxWidth = '100%'; // Ajuste l'image pour qu'elle ne dépasse pas le conteneur
+        if (!imagePreviewDiv) return; // sécurité en plus
+
+        imagePreviewDiv.innerHTML = ''; // Vide le div
+        imagePreviewDiv.classList.add('image-preview-background');
+
+        const img = document.createElement('img');
+        img.src = e.target.result;
+        img.alt = 'Aperçu de l\'image';
+        img.style.maxWidth = '100%';
         img.classList.add('image-preview');
-  
-        imagePreviewDiv.appendChild(img); // Ajoute l'image dans le div
+
+        imagePreviewDiv.appendChild(img);
       };
-  
-      // On lance la lecture du fichier
+
       reader.readAsDataURL(file);
     }
   });
+}
   
