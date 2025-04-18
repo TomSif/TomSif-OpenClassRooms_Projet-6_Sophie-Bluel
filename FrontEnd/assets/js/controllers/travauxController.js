@@ -3,6 +3,7 @@ import { renderGalerie } from '../views/galleryView.js';
 import { chargerGalerieModal } from '../views/modalView.js';
 import { renderCategoryButtons } from '../views/categoryView.js';
 import { uploadWork } from '../models/workUploadModel.js';
+import { deleteWorkById } from '../models/deleteModel.js';
 import { afficherMessageUploadSucces, afficherMessageUploadErreur, fermerSecondaryModal } from "../views/modalView.js";
 
 export async function initTravaux() {
@@ -20,6 +21,28 @@ export async function initTravaux() {
     }
   } catch (e) {
     console.error('Erreur lors de l\'initialisation des travaux :', e);
+  }
+}
+
+
+//Fonction pour la suppression des travaux dans la gallerie de la modale
+export async function confirmerSuppression(workId) {
+  const token = localStorage.getItem("token"); // <- récupère le token
+  try {
+      await deleteWorkById(workId, token); // <- passe le token ici
+
+      const refreshedTravaux = await fetchTravaux();
+      window.travaux = refreshedTravaux;
+
+      renderGalerie(refreshedTravaux);
+      chargerGalerieModal(refreshedTravaux);
+      renderCategoryButtons(refreshedTravaux, (filteredWorks) => {
+          renderGalerie(filteredWorks);
+      });
+
+  } catch (error) {
+      console.error('Erreur lors de la suppression :', error);
+      alert("Impossible de supprimer l'image.");
   }
 }
 

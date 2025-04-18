@@ -2,7 +2,7 @@ import { initTravaux } from './controllers/travauxController.js';
 import { setupLoginForm } from './controllers/loginController.js';
 import { setupModalButtons } from './controllers/modalController.js';
 import { toggleEditMode } from './views/modalView.js';
-import { confirmerSuppression } from './controllers/modalController.js';
+import { confirmerSuppression } from './controllers/travauxController.js';
 
 window.confirmerSuppression = confirmerSuppression;
 

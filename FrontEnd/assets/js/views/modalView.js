@@ -1,4 +1,5 @@
 import { getUniqueCategories } from '../models/categoryModel.js';
+import { confirmerSuppression } from '../controllers/travauxController.js';
 
 export function chargerGalerieModal(data) {
     const modalgalery = document.getElementById("galery-modal");
@@ -38,12 +39,9 @@ export function chargerGalerieModal(data) {
         const trash = document.createElement('i');
         trash.className = 'fa-solid fa-trash';
         trash.setAttribute('aria-label', `Supprimer ${travail.title || 'ce travail'}`);
-        trash.addEventListener('click', (e) => {
-            e.stopPropagation();
-            if (window.confirmerSuppression) {
-                window.confirmerSuppression(travail.id);
-            }
-        });
+        trash.addEventListener('click', () => {
+          confirmerSuppression(travail.id);
+      });
 
   
         // Assembler les éléments

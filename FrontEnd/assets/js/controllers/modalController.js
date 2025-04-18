@@ -163,29 +163,29 @@ export function setupModalButtons() {
     };
 }
 
-export function confirmerSuppression(travauxId) {
-    const token = localStorage.getItem('token');
+// export function confirmerSuppression(travauxId) {
+//     const token = localStorage.getItem('token');
   
-    if (!token) {
-      console.error('Token non disponible, authentification requise');
-      return;
-    }
+//     if (!token) {
+//       console.error('Token non disponible, authentification requise');
+//       return;
+//     }
   
-    if (confirm(`Voulez-vous vraiment supprimer cet élément ?`)) {
-      deleteWorkById(travauxId, token)
-        .then(() => {
-          if (window.travaux) {
-            window.travaux = window.travaux.filter(item => item.id !== parseInt(travauxId));
+//     if (confirm(`Voulez-vous vraiment supprimer cet élément ?`)) {
+//       deleteWorkById(travauxId, token)
+//         .then(() => {
+//           if (window.travaux) {
+//             window.travaux = window.travaux.filter(item => item.id !== parseInt(travauxId));
   
-            updateWorksGallery(window.travaux);
-            updateModalGallery(window.travaux);
-          }
-        })
-        .catch(error => {
-          console.error('Erreur de suppression :', error);
-          alert('La suppression a échoué');
-        });
-    }
-  }
+//             updateWorksGallery(window.travaux);
+//             updateModalGallery(window.travaux);
+//           }
+//         })
+//         .catch(error => {
+//           console.error('Erreur de suppression :', error);
+//           alert('La suppression a échoué');
+//         });
+//     }
+//   }
   
   
