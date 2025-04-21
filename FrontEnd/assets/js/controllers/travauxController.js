@@ -5,8 +5,9 @@ import { renderCategoryButtons } from '../views/categoryView.js';
 import { uploadWork } from '../models/workUploadModel.js';
 import { deleteWorkById } from '../models/deleteModel.js';
 import { validerFichierImage } from '../utils/validation.js';
+import { afficherMessage } from "../views/modalView.js"; // Assure-toi que le chemin est correct
 import { afficherImagePreview } from '../views/modalView.js'; 
-import { afficherMessageUploadSucces, afficherMessageUploadErreur, fermerSecondaryModal } from "../views/modalView.js";
+import { fermerSecondaryModal } from "../views/modalView.js";
 
 export async function initTravaux() {
   try {
@@ -49,6 +50,7 @@ export async function confirmerSuppression(workId) {
   }
 }
 
+
 export async function handleWorkUpload(formElement) {
   const formData = new FormData(formElement);
   const token = window.localStorage.getItem('token');
@@ -64,7 +66,8 @@ export async function handleWorkUpload(formElement) {
     console.log('✅ Nouveau travail ajouté :', newWork);
 
     if (newWork) {
-      afficherMessageUploadSucces();
+      afficherMessage("✅ Le travail a bien été ajouté !", "success");
+
       setTimeout(() => {
         fermerSecondaryModal();
       }, 1560);
@@ -84,7 +87,8 @@ export async function handleWorkUpload(formElement) {
 
   } catch (err) {
     console.error('❌ Erreur upload :', err);
-    alert(err.message || "Une erreur est survenue.");
+    afficherMessage(err.message || "❌ Une erreur est survenue lors de l'envoi.", "error");
+
     document.dispatchEvent(new CustomEvent("uploadFail"));
   }
 }
@@ -97,7 +101,7 @@ if (fileInput) {
   const validation = validerFichierImage(fichier);
 
   if (!validation.valide) {
-    alert(validation.message);
+    afficherMessage(validation.message, "error"); // Affichage du message d'erreur dans la modale
     event.target.value = ""; // Reset l'input
     return;
   }

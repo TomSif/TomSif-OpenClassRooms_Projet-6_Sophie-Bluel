@@ -1,7 +1,4 @@
 import { chargerGalerieModal } from '../views/modalView.js';
-import { deleteWorkById } from '../models/deleteModel.js';
-import { updateWorksGallery, updateModalGallery } from '../views/modalView.js';
-
 
 export function setupModalButtons() {
     const mainModal = document.getElementById('modal');
@@ -163,29 +160,3 @@ export function setupModalButtons() {
     };
 }
 
-// export function confirmerSuppression(travauxId) {
-//     const token = localStorage.getItem('token');
-  
-//     if (!token) {
-//       console.error('Token non disponible, authentification requise');
-//       return;
-//     }
-  
-//     if (confirm(`Voulez-vous vraiment supprimer cet élément ?`)) {
-//       deleteWorkById(travauxId, token)
-//         .then(() => {
-//           if (window.travaux) {
-//             window.travaux = window.travaux.filter(item => item.id !== parseInt(travauxId));
-  
-//             updateWorksGallery(window.travaux);
-//             updateModalGallery(window.travaux);
-//           }
-//         })
-//         .catch(error => {
-//           console.error('Erreur de suppression :', error);
-//           alert('La suppression a échoué');
-//         });
-//     }
-//   }
-  
-  
