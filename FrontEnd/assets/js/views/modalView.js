@@ -170,36 +170,28 @@ export function fermerSecondaryModal() {
   const preview = secondaryModal.querySelector(".image-preview");
   if (preview) {
     preview.src = "";
+    preview.remove(); // ✅ supprime l'élément <img>
   }
 }
 
 //Fonction d'affichage de la miniature via l'input file
-const fileInput = document.getElementById('file-input');
+export function afficherImagePreview(fichier) {
+  const reader = new FileReader();
 
-if (fileInput) {
-  fileInput.addEventListener('change', function(event) {
-    const file = event.target.files[0]; // Premier fichier sélectionné
-    if (file) {
-      const reader = new FileReader();
+  reader.onload = function(e) {
+    const imagePreviewDiv = document.getElementById('image-preview');
+    if (!imagePreviewDiv) return;
 
-      reader.onload = function(e) {
-        const imagePreviewDiv = document.getElementById('image-preview');
-        if (!imagePreviewDiv) return; // sécurité en plus
+    imagePreviewDiv.innerHTML = '';
+    imagePreviewDiv.classList.add('image-preview-background');
 
-        imagePreviewDiv.innerHTML = ''; // Vide le div
-        imagePreviewDiv.classList.add('image-preview-background');
+    const img = document.createElement('img');
+    img.src = e.target.result;
+    img.alt = 'Aperçu de l\'image';
+    img.classList.add('image-preview');
 
-        const img = document.createElement('img');
-        img.src = e.target.result;
-        img.alt = 'Aperçu de l\'image';
-        img.style.maxWidth = '100%';
-        img.classList.add('image-preview');
+    imagePreviewDiv.appendChild(img);
+  };
 
-        imagePreviewDiv.appendChild(img);
-      };
-
-      reader.readAsDataURL(file);
-    }
-  });
-}
-  
+  reader.readAsDataURL(fichier);
+}  

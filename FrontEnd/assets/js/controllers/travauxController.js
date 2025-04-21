@@ -4,6 +4,8 @@ import { chargerGalerieModal } from '../views/modalView.js';
 import { renderCategoryButtons } from '../views/categoryView.js';
 import { uploadWork } from '../models/workUploadModel.js';
 import { deleteWorkById } from '../models/deleteModel.js';
+import { validerFichierImage } from '../utils/validation.js';
+import { afficherImagePreview } from '../views/modalView.js'; 
 import { afficherMessageUploadSucces, afficherMessageUploadErreur, fermerSecondaryModal } from "../views/modalView.js";
 
 export async function initTravaux() {
@@ -27,22 +29,23 @@ export async function initTravaux() {
 
 //Fonction pour la suppression des travaux dans la gallerie de la modale
 export async function confirmerSuppression(workId) {
-  const token = localStorage.getItem("token"); // <- récupère le token
+  const token = localStorage.getItem("token");
   try {
-      await deleteWorkById(workId, token); // <- passe le token ici
+    await deleteWorkById(workId, token); // suppression sur le serveur
 
-      const refreshedTravaux = await fetchTravaux();
-      window.travaux = refreshedTravaux;
+    // Supprimer le travail localement (dans window.travaux)
+    window.travaux = window.travaux.filter(work => work.id !== workId);
 
-      renderGalerie(refreshedTravaux);
-      chargerGalerieModal(refreshedTravaux);
-      renderCategoryButtons(refreshedTravaux, (filteredWorks) => {
-          renderGalerie(filteredWorks);
-      });
+    // Mettre à jour les vues à partir du tableau local modifié
+    renderGalerie(window.travaux);
+    chargerGalerieModal(window.travaux);
+    renderCategoryButtons(window.travaux, (filteredWorks) => {
+      renderGalerie(filteredWorks);
+    });
 
   } catch (error) {
-      console.error('Erreur lors de la suppression :', error);
-      alert("Impossible de supprimer l'image.");
+    console.error('Erreur lors de la suppression :', error);
+    alert("Impossible de supprimer l'image.");
   }
 }
 
@@ -50,7 +53,6 @@ export async function handleWorkUpload(formElement) {
   const formData = new FormData(formElement);
   const token = window.localStorage.getItem('token');
 
-  // 🔍 Debug logs
   console.log("🔐 Token :", token);
   console.log("📦 FormData :");
   for (let [key, value] of formData.entries()) {
@@ -62,33 +64,46 @@ export async function handleWorkUpload(formElement) {
     console.log('✅ Nouveau travail ajouté :', newWork);
 
     if (newWork) {
-      // 🔔 Événement personnalisé (upload réussi)
-      afficherMessageUploadSucces(); 
-      // ⏱️ Fermer la modale secondaire après un petit délai
+      afficherMessageUploadSucces();
       setTimeout(() => {
-      fermerSecondaryModal();
+        fermerSecondaryModal();
       }, 1560);
+
+      // ➕ Ajouter le nouveau travail localement
+      window.travaux.push(newWork);
+
+      // 🔁 Mettre à jour toutes les vues avec le tableau local
+      renderGalerie(window.travaux);
+      chargerGalerieModal(window.travaux);
+      renderCategoryButtons(window.travaux, (filteredWorks) => {
+        renderGalerie(filteredWorks);
+      });
     }
 
-    // 🔄 Rafraîchir toutes les galeries avec les données complètes depuis l'API
-    const refreshedTravaux = await fetchTravaux();
-    window.travaux = refreshedTravaux;
-    renderGalerie(refreshedTravaux);
-    chargerGalerieModal(refreshedTravaux);
+    formElement.reset(); // 🧼 Réinitialiser le formulaire
 
-    // 🔁 Mettre à jour les boutons de filtres
-    renderCategoryButtons(refreshedTravaux, (filtered) => {
-      renderGalerie(filtered);
-    });
-
-
-    formElement.reset(); // Réinitialise le formulaire
   } catch (err) {
-    console.error('❌ Erreur lors de l’ajout du travail :', err);
+    console.error('❌ Erreur upload :', err);
     alert(err.message || "Une erreur est survenue.");
-    afficherMessageUploadErreur(); // 🔔 Message erreur
+    document.dispatchEvent(new CustomEvent("uploadFail"));
   }
 }
+
+//fonction pour vérifier le fichier avant de l'uploader
+const fileInput = document.getElementById("file-input");
+if (fileInput) {
+  fileInput.addEventListener("change", (event) => {
+  const fichier = event.target.files[0];
+  const validation = validerFichierImage(fichier);
+
+  if (!validation.valide) {
+    alert(validation.message);
+    event.target.value = ""; // Reset l'input
+    return;
+  }
+
+  afficherImagePreview(fichier);
+})};
 
 export function initUploadForm() {
   const form = document.getElementById('form-ajout-travail');
