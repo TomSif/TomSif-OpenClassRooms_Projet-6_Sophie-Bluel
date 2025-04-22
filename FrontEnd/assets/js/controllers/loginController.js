@@ -25,3 +25,11 @@ export function setupLoginForm() {
     }
   });
 }
+
+// fonction pour envoyer message lors du click sur password oublié
+const forgetPassword = document.getElementById('forgetPassword');
+if(forgetPassword){
+  forgetPassword.addEventListener('click', ()=> {
+    Toast.info('un email de récupération vous a été envoyé');
+  })
+};

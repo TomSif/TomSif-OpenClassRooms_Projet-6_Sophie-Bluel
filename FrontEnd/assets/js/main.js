@@ -19,7 +19,7 @@ function initApp() {
     
     // Initialiser les contrôleurs
     initTravaux();
-    const modalControls = setupModalButtons();
+    setupModalButtons();
     
     // Exposer les fonctions de mise à jour de l'interface
     window.updateGalleryView = function(travaux) {
@@ -45,8 +45,3 @@ function initApp() {
 
 // Attendre que le DOM soit complètement chargé avant d'initialiser l'application
 document.addEventListener('DOMContentLoaded', initApp);
-
-// Intercepter les erreurs pour faciliter le débogage
-window.addEventListener('error', (event) => {
-  console.error('Erreur détectée :', event.message, event.filename, event.lineno);
-});

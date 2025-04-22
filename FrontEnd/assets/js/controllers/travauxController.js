@@ -5,15 +5,14 @@ import { renderCategoryButtons } from '../views/categoryView.js';
 import { uploadWork } from '../models/workUploadModel.js';
 import { deleteWorkById } from '../models/deleteModel.js';
 import { validerFichierImage } from '../utils/validation.js';
-import { afficherMessage, afficherImagePreview, fermerSecondaryModal } from "../views/modalView.js"; 
-import { modalStateManager } from "../utils/modalState.js"; // Import du gestionnaire d'état
+import { afficherImagePreview, fermerSecondaryModal } from "../views/modalView.js"; 
+import { modalStateManager } from "../utils/modalState.js"; 
 import { Toast } from '../views/toast.js';
 
-// Option 1: Continuer à utiliser window.travaux mais avec modalStateManager
 export async function initTravaux() {
   try {
     const travaux = await fetchTravaux();
-    window.travaux = travaux; // On garde cette approche pour minimiser les changements
+    window.travaux = travaux; 
     renderGalerie(travaux);
     renderCategoryButtons(travaux, (filtered) => {
       renderGalerie(filtered);
@@ -39,6 +38,7 @@ export async function confirmerSuppression(workId) {
     // Mettre à jour les vues à partir du tableau local modifié
     renderGalerie(window.travaux);
     chargerGalerieModal(window.travaux);
+    Toast.success("le travail a bien été supprimé");
     renderCategoryButtons(window.travaux, (filteredWorks) => {
       renderGalerie(filteredWorks);
     });
@@ -76,7 +76,7 @@ export async function handleWorkUpload(formElement) {
     formElement.reset(); // 🧼 Réinitialiser le formulaire
 
   } catch (err) {
-    Toast.error('❌ Erreur upload :', err);
+    Toast.error('❌ Erreur lors de l’upload du travail ');
   }
 }
 

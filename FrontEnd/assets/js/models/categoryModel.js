@@ -1,5 +1,3 @@
-// categoryModel.js
-
 // Extrait uniquement les catégories valides depuis les travaux
 export function getUniqueCategories(travaux) {
   return Array.from(

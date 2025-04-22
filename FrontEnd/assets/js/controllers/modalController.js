@@ -25,7 +25,7 @@ export function setupModalButtons() {
         
         if (window.travaux && !modalStateManager.getState().isLoaded) {
             chargerGalerieModal(window.travaux);
-            modalStateManager.updateState({ isOpen: true, isLoaded: true });
+            modalStateManager.updateState({ isOpen: true, isLoaded: true, activeModal: 'main' });
         }
     }
 
@@ -43,6 +43,7 @@ export function setupModalButtons() {
         if (elements.secondaryModal) {
             elements.secondaryModal.classList.remove("display-none");
             elements.secondaryModal.showModal();
+            modalStateManager.updateState({ isOpen: true, activeModal: 'secondary' });
         }
     }
 
@@ -50,12 +51,23 @@ export function setupModalButtons() {
         if (elements.secondaryModal) {
             elements.secondaryModal.close();
             elements.secondaryModal.classList.add("display-none");
+    
+            // Vérifier si la modale principale est toujours ouverte
+            const mainIsStillOpen = elements.mainModal && !elements.mainModal.classList.contains('hidden');
+    
+            modalStateManager.updateState({
+                activeModal: mainIsStillOpen ? 'main' : null,
+                isOpen: mainIsStillOpen // false si tout est fermé
+            });
         }
     }
+    
 
     function closeAllModals() {
         closeSecondaryModal();
         fermerModal();
+        // Réinitialisation claire de l’état
+        modalStateManager.updateState({ isOpen: false, activeModal: null });
     }
 
     function handleLogout(e) {

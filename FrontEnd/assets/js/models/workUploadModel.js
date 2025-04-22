@@ -17,7 +17,7 @@ export async function uploadWork(formData, token) {
   
       return await response.json();
     } catch (error) {
-      console.error('Erreur lors de l’upload du travail :', error);
+      Toast.error('Erreur lors de l’upload du travail :', error);
       throw error;
     }
   }

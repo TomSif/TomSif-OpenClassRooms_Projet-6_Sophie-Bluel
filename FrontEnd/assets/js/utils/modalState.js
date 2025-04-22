@@ -1,6 +1,7 @@
 let state = {
     isOpen: false,
-    isLoaded: false
+    isLoaded: false,
+    activeModal: null
 };
 
 export const modalStateManager = {
