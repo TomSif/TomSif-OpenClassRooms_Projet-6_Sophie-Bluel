@@ -1,5 +1,6 @@
 import { chargerGalerieModal } from '../views/modalView.js';
 import { modalStateManager } from '../utils/modalState.js'; 
+
 export function setupModalButtons() {
     // Regrouper toutes les sélections DOM
     const elements = {

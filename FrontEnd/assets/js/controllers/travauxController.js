@@ -7,6 +7,7 @@ import { deleteWorkById } from '../models/deleteModel.js';
 import { validerFichierImage } from '../utils/validation.js';
 import { afficherMessage, afficherImagePreview, fermerSecondaryModal } from "../views/modalView.js"; 
 import { modalStateManager } from "../utils/modalState.js"; // Import du gestionnaire d'état
+import { Toast } from '../views/toast.js';
 
 // Option 1: Continuer à utiliser window.travaux mais avec modalStateManager
 export async function initTravaux() {
@@ -23,7 +24,7 @@ export async function initTravaux() {
       chargerGalerieModal(travaux);
     }
   } catch (e) {
-    console.error('Erreur lors de l\'initialisation des travaux :', e);
+    Toast.error('Erreur lors de l\'initialisation des travaux :', e);
   }
 }
 
@@ -43,8 +44,7 @@ export async function confirmerSuppression(workId) {
     });
 
   } catch (error) {
-    console.error('Erreur lors de la suppression :', error);
-    afficherMessage("Impossible de supprimer l'image.", "error"); // Utilisation de la fonction afficherMessage au lieu d'alert
+    Toast.error('Impossible de supprimer l\'image.');
   }
 }
 
@@ -54,10 +54,9 @@ export async function handleWorkUpload(formElement) {
 
   try {
     const newWork = await uploadWork(formData, token);
-    console.log('✅ Nouveau travail ajouté :', newWork);
 
     if (newWork) {
-      afficherMessage("✅ Le travail a bien été ajouté !", "success");
+      Toast.success("✅ Le travail a bien été ajouté !");
 
       setTimeout(() => {
         fermerSecondaryModal();
@@ -77,8 +76,7 @@ export async function handleWorkUpload(formElement) {
     formElement.reset(); // 🧼 Réinitialiser le formulaire
 
   } catch (err) {
-    console.error('❌ Erreur upload :', err);
-    afficherMessage(err.message || "❌ Une erreur est survenue lors de l'envoi.", "error");
+    Toast.error('❌ Erreur upload :', err);
   }
 }
 
@@ -91,7 +89,7 @@ export function initFileInput() {
       const validation = validerFichierImage(fichier);
 
       if (!validation.valide) {
-        afficherMessage(validation.message, "error");
+        Toast.error(validation.message);
         event.target.value = ""; 
         return;
       }
