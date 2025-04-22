@@ -101,7 +101,6 @@ export function updateWorksGallery(travaux) {
 
 //Fonction d'affichage des categories dans le menu select
 export function renderCategorySelect(travaux) {
-    console.log('renderCategorySelect appelée avec :', travaux); // ← DEBUG 
   const select = document.getElementById('categorie');
   if (!select) {
     console.warn('Le select #categorie est introuvable dans le DOM.');
@@ -120,37 +119,6 @@ export function renderCategorySelect(travaux) {
   });
 }
 
-//fonction d'affichage d'un message de succès à l'upload
-export function afficherMessageUploadSucces() {
-  const message = document.createElement("p");
-  message.textContent = "✅ Le travail a bien été ajouté !";
-  message.style.color = "green";
-  message.style.textAlign = "center";
-
-  const container = document.querySelector(".secondary-modal-title");
-  if (container) {
-    container.appendChild(message);
-    setTimeout(() => {
-      message.remove();
-    }, 1500);
-  }
-}
-
-//fonction d'affichage d'un message d'échec à l'upload
-export function afficherMessageUploadErreur() {
-  const message = document.createElement("p");
-  message.textContent = "❌ Une erreur est survenue lors de l'ajout.";
-  message.style.color = "red";
-  message.style.textAlign = "center";
-
-  const container = document.querySelector(".secondary-modal-title");
-  if (container) {
-    container.appendChild(message);
-    setTimeout(() => {
-      message.remove();
-    }, 3000);
-  }
-}
 
 //fonction pour fermer la deuxième modale quand l'upload s'est bien déroulé.
 export function fermerSecondaryModal() {
@@ -170,7 +138,7 @@ export function fermerSecondaryModal() {
   const preview = secondaryModal.querySelector(".image-preview");
   if (preview) {
     preview.src = "";
-    preview.remove(); // ✅ supprime l'élément <img>
+    preview.remove(); 
   }
 }
 
@@ -197,14 +165,13 @@ export function afficherImagePreview(fichier) {
 }  
 
 //fonction pour centraliser les messages d'erreurs 
-
 export function afficherMessage(message, type = "success") {
   const container = document.querySelector(".secondary-modal-title");
   if (!container) return;
 
   const existingMessage = container.querySelector(".upload-feedback");
   if (existingMessage) {
-    existingMessage.remove(); // on enlève le message précédent s’il existe
+    existingMessage.remove(); 
   }
 
   const p = document.createElement("p");
@@ -217,5 +184,5 @@ export function afficherMessage(message, type = "success") {
 
   setTimeout(() => {
     p.remove();
-  }, 1500); // tu peux ajuster le temps selon le type
+  }, 1500); 
 }

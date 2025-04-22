@@ -1,162 +1,123 @@
 import { chargerGalerieModal } from '../views/modalView.js';
-
+import { modalStateManager } from '../utils/modalState.js'; 
 export function setupModalButtons() {
-    const mainModal = document.getElementById('modal');
-    const secondaryModal = document.getElementById('secondary-modal');
-    const openSecondaryBtn = document.getElementById('open-secondary');
-    const closeSecondaryBtn = document.getElementById('close-secondary-modal');
-    const closeFromSecondary = document.getElementById('close-main-modal-from-secondary');
-    const btnModifier = document.getElementById('btnModifier');
-    const banner = document.getElementById('banner'); 
-    const loginButton = document.getElementById('login');
-    const closeBtn = document.getElementById('close-modal');
+    // Regrouper toutes les sélections DOM
+    const elements = {
+        mainModal: document.getElementById('modal'),
+        secondaryModal: document.getElementById('secondary-modal'),
+        openSecondaryBtn: document.getElementById('open-secondary'),
+        closeSecondaryBtn: document.getElementById('close-secondary-modal'),
+        closeFromSecondary: document.getElementById('close-main-modal-from-secondary'),
+        btnModifier: document.getElementById('btnModifier'),
+        banner: document.getElementById('banner'),
+        loginButton: document.getElementById('login'),
+        closeBtn: document.getElementById('close-modal'),
+        galleryModal: document.getElementById('galery-modal')
+    };
 
-    console.log('✅ setupModalButtons initialisé');
-
-    // Fonction pour gérer l'ouverture de la première modale
+    // Fonctions principales
     function openMainModal() {
-        if (!mainModal) return;
+        if (!elements.mainModal) return;
         
-        mainModal.showModal();
-        mainModal.classList.remove('hidden');
+        elements.mainModal.showModal();
+        elements.mainModal.classList.remove('hidden');
         
-        // Si la galerie n'a pas encore été chargée dans la modale
-        if (window.travaux && window.modalManager && !window.modalManager.getState()?.isLoaded) {
+        if (window.travaux && !modalStateManager.getState().isLoaded) {
             chargerGalerieModal(window.travaux);
-            if (window.modalManager) {
-                window.modalManager.updateModalState({ isOpen: true, isLoaded: true });
-            }
+            modalStateManager.updateState({ isOpen: true, isLoaded: true });
         }
     }
 
-    // Fonction pour fermer la modale principale
     function fermerModal() {
-        if (!mainModal) return;
+        if (!elements.mainModal) return;
         
-        mainModal.close();
-        mainModal.classList.add('hidden');
+        elements.mainModal.close();
+        elements.mainModal.classList.add('hidden');
         
-        if (window.modalManager) {
-            window.modalManager.updateModalState({ isOpen: false });
-            window.modalManager.resetGalerieModal();
+        modalStateManager.updateState({ isOpen: false });
+        modalStateManager.resetGalerie();
+    }
+
+    function openSecondaryModal() {
+        if (elements.secondaryModal) {
+            elements.secondaryModal.classList.remove("display-none");
+            elements.secondaryModal.showModal();
         }
     }
 
-    // Initialisation des écouteurs d'événements pour les boutons
-    if (btnModifier) {
-        btnModifier.addEventListener('click', openMainModal);
+    function closeSecondaryModal() {
+        if (elements.secondaryModal) {
+            elements.secondaryModal.close();
+            elements.secondaryModal.classList.add("display-none");
+        }
     }
 
-    if (closeBtn) {
-        closeBtn.addEventListener('click', fermerModal);
+    function closeAllModals() {
+        closeSecondaryModal();
+        fermerModal();
     }
 
-    if (mainModal) {
-        mainModal.addEventListener('click', (e) => {
-            if (e.target === mainModal) {
-                fermerModal();
-            }
-        });
+    function handleLogout(e) {
+        e.preventDefault();
+        localStorage.removeItem('token');
+        localStorage.removeItem('isAdmin');
+        
+        if (elements.btnModifier) elements.btnModifier.classList.add('display-none');
+        if (elements.banner) elements.banner.classList.add('display-none');
+        
+        window.location.reload();
     }
 
-    if (openSecondaryBtn) {
-        openSecondaryBtn.addEventListener('click', () => {
-            if (secondaryModal) {
-                secondaryModal.classList.remove("display-none");
-                secondaryModal.showModal();
-            }
-        });
-    }
+    // Configuration des écouteurs d'événements
+    const eventListeners = [
+        { element: elements.btnModifier, event: 'click', handler: openMainModal },
+        { element: elements.closeBtn, event: 'click', handler: fermerModal },
+        { element: elements.mainModal, event: 'click', handler: (e) => {
+            if (e.target === elements.mainModal) fermerModal();
+        }},
+        { element: elements.openSecondaryBtn, event: 'click', handler: openSecondaryModal },
+        { element: elements.closeSecondaryBtn, event: 'click', handler: closeSecondaryModal },
+        { element: elements.closeFromSecondary, event: 'click', handler: closeAllModals }
+    ];
 
-    if (closeSecondaryBtn) {
-        closeSecondaryBtn.addEventListener('click', () => {
-            if (secondaryModal) {
-                secondaryModal.close();
-                secondaryModal.classList.add("display-none");
-            }
-        });
-    }
+    // Ajouter les écouteurs d'événements
+    eventListeners.forEach(({ element, event, handler }) => {
+        if (element) element.addEventListener(event, handler);
+    });
 
-    if (closeFromSecondary) {
-        closeFromSecondary.addEventListener('click', () => {
-            if (secondaryModal) {
-                secondaryModal.close();
-                secondaryModal.classList.add("display-none");
-            }
-            fermerModal();
-        });
-    }
-
-    // Initialisation du gestionnaire d'état des modales
-    if (!window.modalManager) {
-        let modalState = {
-            isOpen: false,
-            isLoaded: false
-        };
-
-        window.modalManager = {
-            updateModalState: (newState) => {
-                modalState = { ...modalState, ...newState };
-                return modalState;
-            },
-            getState: () => modalState,
-            resetGalerieModal: () => {
-                const modalgalery = document.getElementById("galery-modal");
-                if (modalgalery) modalgalery.innerHTML = '';
-                modalState.isLoaded = false;
-            }
-        };
-    }
-
-    // Gestion de l'authentification et du mode édition
+    // Configuration de l'interface utilisateur en fonction de l'authentification
     function setupAuthenticationUI() {
         const isAdmin = localStorage.getItem('isAdmin') === 'true';
         
         if (isAdmin) {
-            // Afficher la bannière admin et le bouton modifier
-            if (banner) banner.classList.remove('display-none');
-            if (btnModifier) btnModifier.classList.remove('display-none');
+            if (elements.banner) elements.banner.classList.remove('display-none');
+            if (elements.btnModifier) elements.btnModifier.classList.remove('display-none');
             
-            // Changer le bouton login en bouton logout
-            if (loginButton) {
-                loginButton.textContent = 'Logout';
-                loginButton.href = '#';
+            if (elements.loginButton) {
+                elements.loginButton.textContent = 'Logout';
+                elements.loginButton.href = '#';
                 
-                // Éviter les doublons d'écouteurs d'événements
-                const newLoginButton = loginButton.cloneNode(true);
-                if (loginButton.parentNode) {
-                    loginButton.parentNode.replaceChild(newLoginButton, loginButton);
+                // Éviter les écouteurs multiples
+                const newLoginButton = elements.loginButton.cloneNode(true);
+                if (elements.loginButton.parentNode) {
+                    elements.loginButton.parentNode.replaceChild(newLoginButton, elements.loginButton);
                 }
-                
-                newLoginButton.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    
-                    // Déconnexion
-                    localStorage.removeItem('token');
-                    localStorage.removeItem('isAdmin');
-                    
-                    // Masquer les éléments d'édition
-                    if (btnModifier) btnModifier.classList.add('display-none');
-                    if (banner) banner.classList.add('display-none');
-                    
-                    // Recharger la page pour réinitialiser l'interface
-                    window.location.reload();
-                });
+                elements.loginButton = newLoginButton;
+                elements.loginButton.addEventListener('click', handleLogout);
             }
         } else {
-            // S'assurer que les éléments d'édition sont masqués
-            if (btnModifier) btnModifier.classList.add('display-none');
-            if (banner) banner.classList.add('display-none');
+            if (elements.btnModifier) elements.btnModifier.classList.add('display-none');
+            if (elements.banner) elements.banner.classList.add('display-none');
         }
     }
 
-    // Initialiser la gestion de l'authentification
+    // Initialiser l'UI d'authentification
     setupAuthenticationUI();
 
+    // Retourner les fonctions publiques
     return {
         openMainModal,
         fermerModal,
         setupAuthenticationUI
     };
 }
-
