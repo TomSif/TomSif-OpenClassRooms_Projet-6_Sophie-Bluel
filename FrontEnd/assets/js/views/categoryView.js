@@ -1,6 +1,7 @@
 import { getUniqueCategories } from '../models/categoryModel.js';
+import { renderGalerie } from '../views/galleryView.js';
 
-export function renderCategoryButtons(travaux, onFilterCallback) {
+export function renderCategoryButtons(travaux, renderGalerie) {
   const menu = document.querySelector('#menu-categories');
   if (!menu) return;
 
@@ -12,7 +13,7 @@ export function renderCategoryButtons(travaux, onFilterCallback) {
   allBtn.className = 'category-button category-button-active';
   allBtn.textContent = 'Tous';
   allBtn.addEventListener('click', () => {
-    onFilterCallback(travaux);
+    renderGalerie(window.travaux);
     setActiveButton(allBtn);
   });
   menu.appendChild(allBtn);
@@ -24,8 +25,9 @@ export function renderCategoryButtons(travaux, onFilterCallback) {
     btn.dataset.categoryId = cat.id;
 
     btn.addEventListener('click', () => {
+      console.log('travaux :', travaux);
       const filtered = travaux.filter(t => t.category.id === cat.id);
-      onFilterCallback(filtered);
+      renderGalerie(filtered);
       setActiveButton(btn);
     });
 

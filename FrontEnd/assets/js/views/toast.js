@@ -1,4 +1,3 @@
-// toast.js - Version optimisée avec modalStateManager central
 import { modalStateManager } from '../utils/modalState.js';
 
 export const Toast = {
@@ -14,6 +13,7 @@ export const Toast = {
    * @param {string} type - Le type de message (success, error, info)
    * @param {number} duration - Durée d'affichage en ms (par défaut 1500ms)
    */
+
   show(message, type = this.types.INFO, duration = 1500) {
     const toast = document.createElement('div');
     toast.className = `toast toast-${type}`;
