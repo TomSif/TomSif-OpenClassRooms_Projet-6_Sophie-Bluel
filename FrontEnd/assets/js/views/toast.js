@@ -14,17 +14,33 @@ export const Toast = {
    * @param {number} duration - Durée d'affichage en ms (par défaut 1500ms)
    */
 
-  show(message, type = this.types.INFO, duration = 1500) {
+  show(message, type = this.types.INFO, duration = 1300) {
     const toast = document.createElement('div');
     toast.className = `toast toast-${type}`;
-    toast.textContent = message;
+    
+    // Création du contenu du toast (texte)
+    const messageElement = document.createElement('div');
+    messageElement.className = 'toast-message';
+    messageElement.textContent = message;
+    toast.appendChild(messageElement);
+    
+    // Création de la barre de progression
+    const progressBar = document.createElement('div');
+    progressBar.className = 'toast-progress';
+    toast.appendChild(progressBar);
 
+    // Récupérer l'état actuel
     const { activeModal } = modalStateManager.getState();
-    let container;
+    let container = null;
 
-    if (activeModal === 'secondary') {
-      const secondaryModal = document.querySelector('.secondary-modal');
-      if (secondaryModal) {
+    // Vérifier si les modales existent ET sont ouvertes (visibles)
+    const secondaryModal = document.querySelector('.secondary-modal:not(.display-none)');
+    const mainModal = document.querySelector('#modal:not(.hidden)');
+    
+    // Déterminer où placer le toast en fonction de l'état réel des modales, pas seulement de l'état enregistré
+    if (activeModal === 'secondary' && secondaryModal) {
+      // Vérifier que la modale secondaire est réellement ouverte
+      if (secondaryModal.open) {
         container = secondaryModal.querySelector('.toast-container');
         if (!container) {
           container = document.createElement('div');
@@ -32,9 +48,9 @@ export const Toast = {
           secondaryModal.appendChild(container);
         }
       }
-    } else if (activeModal === 'main') {
-      const mainModal = document.querySelector('#modal');
-      if (mainModal) {
+    } else if (activeModal === 'main' && mainModal) {
+      // Vérifier que la modale principale est réellement ouverte
+      if (mainModal.open) {
         container = mainModal.querySelector('.toast-container');
         if (!container) {
           container = document.createElement('div');
@@ -44,7 +60,7 @@ export const Toast = {
       }
     }
 
-    // Fallback sur le body si aucune modale n'est active
+    // Si aucune modale n'est active ou si les modales sont fermées, utiliser le body
     if (!container) {
       container = document.querySelector('body > .toast-container');
       if (!container) {
@@ -57,18 +73,29 @@ export const Toast = {
     // Insertion du toast
     container.appendChild(toast);
 
+    // Animation d'apparition du toast
     setTimeout(() => {
       toast.classList.add('show');
+      // Animation de la barre de progression
+      progressBar.style.transition = `width ${duration-80}ms linear`;
+      progressBar.style.width = '100%';  // Commence plein et se vide
     }, 10);
 
+    // Disparition du toast après la durée spécifiée
     setTimeout(() => {
       toast.classList.remove('show');
-      toast.addEventListener('transitionend', () => {
+      
+      const handleTransitionEnd = () => {
+        toast.removeEventListener('transitionend', handleTransitionEnd);
         toast.remove();
-        if (container.children.length === 0) {
+        
+        // Ne supprimer le conteneur que s'il est vide
+        if (container && container.children.length === 0 && container.parentNode) {
           container.remove();
         }
-      });
+      };
+      
+      toast.addEventListener('transitionend', handleTransitionEnd);
     }, duration);
   },
 

@@ -147,6 +147,12 @@ nav li a:hover,nav li a:active, .nav-active {
 nav li a img{
 	width:19px;
 	height: 19px;
+	border: 1px solid transparent;
+}
+
+.insta:active img, .insta:hover img{
+	border: 1px solid black;
+	filter:sepia(1);
 }
 
 #introduction {
@@ -188,14 +194,19 @@ nav li a img{
 
 #btnModifier{
 	background: none;
-	border: none;
+	border: 1px solid transparent;
 	cursor: pointer;
+
 }
 
 #btnModifier i {
 	padding-right: 0.625rem;
 }
 
+#btnModifier:hover, #btnModifier:focus, #btnModifier:active{
+border: 1px solid black;
+transform: scale(0.98);
+}
 
 
 #menu-categories{
@@ -279,6 +290,13 @@ input[type="submit"]{
 	width: 180px;
 	text-align: center;
 	border-radius: 60px ;
+	transition: transform 0.1s ease-in-out;
+	transition: background-color 0.1s ease-in-out;
+}
+
+input[type="submit"]:hover{
+	background-color: #A7A7A7;
+	transform: scale(0.95);
 }
 
 footer{
@@ -682,6 +700,15 @@ select {
 	transform: translateX(0);
   }
   
+  .toast-progress {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	height: 3px; /* Hauteur de la barre de progression */
+	width: 0%; /* Commence à 100% et diminue */
+	background-color: rgba(255, 255, 255, 0.7); /* Couleur de la barre */
+  }
+
   .toast-success {
 	background-color: #1d6154;
 	border-left: 5px solid #0e4f36;
@@ -695,4 +722,17 @@ select {
   .toast-info {
 	background-color: #3498db;
 	border-left: 5px solid #2980b9;
+  }
+
+  /* Couleurs spécifiques pour chaque type de toast */
+  .toast-success .toast-progress {
+	background-color: #0e4f36;
+  }
+  
+  .toast-error .toast-progress {
+	background-color: #b32929;
+  }
+  
+  .toast-info .toast-progress {
+	background-color: #2980b9;
   }

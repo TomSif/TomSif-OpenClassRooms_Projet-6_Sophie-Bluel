@@ -1,5 +1,7 @@
 import { getUniqueCategories } from '../models/categoryModel.js';
 import { confirmerSuppression } from '../controllers/travauxController.js';
+import { modalStateManager } from '../utils/modalState.js';
+
 
 export function chargerGalerieModal(data) {
     const modalgalery = document.getElementById("galery-modal");
@@ -126,6 +128,9 @@ export function fermerSecondaryModal() {
   if (secondaryModal) {
     secondaryModal.close();
     secondaryModal.classList.add("display-none");
+    // Supprimer tous les conteneurs de toast dans la modale secondaire
+    const toastContainers = secondaryModal.querySelectorAll(".toast-container");
+    toastContainers.forEach(container => container.remove());
   }
 
   // Réinitialiser les champs du formulaire
@@ -140,6 +145,9 @@ export function fermerSecondaryModal() {
     preview.src = "";
     preview.remove(); 
   }
+
+   // Mettre à jour l'état de la modale dans le gestionnaire d'état
+   modalStateManager.updateState({ activeModal: "main" });
 }
 
 //Fonction d'affichage de la miniature via l'input file
@@ -164,25 +172,25 @@ export function afficherImagePreview(fichier) {
   reader.readAsDataURL(fichier);
 }  
 
-//fonction pour centraliser les messages d'erreurs 
-export function afficherMessage(message, type = "success") {
-  const container = document.querySelector(".secondary-modal-title");
-  if (!container) return;
+// //fonction pour centraliser les messages d'erreurs 
+// export function afficherMessage(message, type = "success") {
+//   const container = document.querySelector(".secondary-modal-title");
+//   if (!container) return;
 
-  const existingMessage = container.querySelector(".upload-feedback");
-  if (existingMessage) {
-    existingMessage.remove(); 
-  }
+//   const existingMessage = container.querySelector(".upload-feedback");
+//   if (existingMessage) {
+//     existingMessage.remove(); 
+//   }
 
-  const p = document.createElement("p");
-  p.classList.add("upload-feedback");
-  p.textContent = message;
-  p.style.textAlign = "center";
-  p.style.color = type === "success" ? "green" : "red";
+//   const p = document.createElement("p");
+//   p.classList.add("upload-feedback");
+//   p.textContent = message;
+//   p.style.textAlign = "center";
+//   p.style.color = type === "success" ? "green" : "red";
 
-  container.appendChild(p);
+//   container.appendChild(p);
 
-  setTimeout(() => {
-    p.remove();
-  }, 1500); 
-}
+//   setTimeout(() => {
+//     p.remove();
+//   }, 1500); 
+// }

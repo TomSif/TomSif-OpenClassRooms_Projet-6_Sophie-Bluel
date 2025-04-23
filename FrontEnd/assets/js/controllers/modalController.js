@@ -49,6 +49,10 @@ export function setupModalButtons() {
 
     function closeSecondaryModal() {
         if (elements.secondaryModal) {
+            // Ajouter le nettoyage des conteneurs toast ici
+            const toastContainers = elements.secondaryModal.querySelectorAll(".toast-container");
+            toastContainers.forEach(container => container.remove());
+                
             elements.secondaryModal.close();
             elements.secondaryModal.classList.add("display-none");
     
@@ -66,6 +70,10 @@ export function setupModalButtons() {
     function closeAllModals() {
         closeSecondaryModal();
         fermerModal();
+        // Ajouter le nettoyage des conteneurs toast ici
+        const toastContainers = elements.secondaryModal.querySelectorAll(".toast-container");
+        toastContainers.forEach(container => container.remove());
+        
         // Réinitialisation claire de l’état
         modalStateManager.updateState({ isOpen: false, activeModal: null });
     }
