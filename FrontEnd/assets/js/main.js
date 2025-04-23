@@ -3,6 +3,8 @@ import { setupLoginForm } from './controllers/loginController.js';
 import { setupModalButtons } from './controllers/modalController.js';
 import { toggleEditMode } from './views/modalView.js';
 import { confirmerSuppression } from './controllers/travauxController.js';
+import { handleContactForm } from './controllers/formController.js';
+
 
 window.confirmerSuppression = confirmerSuppression;
 
@@ -20,6 +22,7 @@ function initApp() {
     // Initialiser les contrôleurs
     initTravaux();
     setupModalButtons();
+    handleContactForm();
     
     // Exposer les fonctions de mise à jour de l'interface
     window.updateGalleryView = function(travaux) {
