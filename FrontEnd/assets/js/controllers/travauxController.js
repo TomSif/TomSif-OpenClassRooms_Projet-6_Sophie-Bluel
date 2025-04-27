@@ -14,6 +14,7 @@ export async function initTravaux() {
   try {
     const travaux = await fetchTravaux();
     window.travaux = travaux; 
+    window.uniqueCategories = getUniqueCategories(travaux);
     renderGalerie(travaux);
     renderCategoryButtons(travaux, (filtered) => {
       renderGalerie(filtered);
@@ -69,7 +70,7 @@ export async function handleWorkUpload(formElement) {
       const categoryId = Number(newWork.categoryId);
       
       // Trouver la catégorie correspondant à categoryId dans les travaux existants
-      categoryObj = getUniqueCategories(window.travaux).find(cat => cat.id === categoryId);
+      categoryObj = window.uniqueCategories.find(cat => cat.id === categoryId);
   
       if (!categoryObj) {
         console.error("❌ Impossible de trouver la catégorie pour le nouveau travail.");

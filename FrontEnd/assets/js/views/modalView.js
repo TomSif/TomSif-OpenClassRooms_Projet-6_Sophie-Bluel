@@ -171,26 +171,3 @@ export function afficherImagePreview(fichier) {
 
   reader.readAsDataURL(fichier);
 }  
-
-// //fonction pour centraliser les messages d'erreurs 
-// export function afficherMessage(message, type = "success") {
-//   const container = document.querySelector(".secondary-modal-title");
-//   if (!container) return;
-
-//   const existingMessage = container.querySelector(".upload-feedback");
-//   if (existingMessage) {
-//     existingMessage.remove(); 
-//   }
-
-//   const p = document.createElement("p");
-//   p.classList.add("upload-feedback");
-//   p.textContent = message;
-//   p.style.textAlign = "center";
-//   p.style.color = type === "success" ? "green" : "red";
-
-//   container.appendChild(p);
-
-//   setTimeout(() => {
-//     p.remove();
-//   }, 1500); 
-// }

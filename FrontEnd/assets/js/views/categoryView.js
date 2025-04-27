@@ -1,11 +1,10 @@
-import { getUniqueCategories } from '../models/categoryModel.js';
-import { renderGalerie } from '../views/galleryView.js';
+import { fetchCategories } from '../models/categoryModel.js';
 
-export function renderCategoryButtons(travaux, renderGalerie) {
+export async function renderCategoryButtons(travaux, renderGalerie) {
   const menu = document.querySelector('#menu-categories');
   if (!menu) return;
 
-  const uniqueCategories = getUniqueCategories(travaux);
+  const uniqueCategories = await fetchCategories();
 
   menu.innerHTML = '';
 
@@ -25,7 +24,6 @@ export function renderCategoryButtons(travaux, renderGalerie) {
     btn.dataset.categoryId = cat.id;
 
     btn.addEventListener('click', () => {
-      console.log('travaux :', travaux);
       const filtered = travaux.filter(t => t.category.id === cat.id);
       renderGalerie(filtered);
       setActiveButton(btn);
@@ -35,10 +33,9 @@ export function renderCategoryButtons(travaux, renderGalerie) {
   });
 }
 
-  function setActiveButton(activeBtn) {
-    document.querySelectorAll('.category-button').forEach(btn => {
-      btn.classList.remove('category-button-active');
-    });
-    activeBtn.classList.add('category-button-active');
-  }
-  
+function setActiveButton(activeBtn) {
+  document.querySelectorAll('.category-button').forEach(btn => {
+    btn.classList.remove('category-button-active');
+  });
+  activeBtn.classList.add('category-button-active');
+}

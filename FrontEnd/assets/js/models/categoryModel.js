@@ -20,3 +20,16 @@ export function formatCategoryForPost(category) {
   console.warn("Catégorie mal formée pour le POST :", category);
   return null;
 }
+
+//fetch catégories 
+const API_URL = 'http://localhost:5678/api/categories';
+
+export async function fetchCategories() {
+  const response = await fetch(API_URL);
+  if (!response.ok) {
+    throw new Error('Erreur lors de la récupération des catégories');
+  }
+  const data = await response.json();
+  console.log(data);
+  return data;
+}

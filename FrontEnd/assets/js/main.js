@@ -10,39 +10,36 @@ window.confirmerSuppression = confirmerSuppression;
 
 console.log('✅ main.js chargé');
 
+// Fonction helper pour vérifier l'authentification et le statut admin
+window.checkAuthentication = function() {
+  const token = localStorage.getItem('token');
+  const isAuthenticated = !!token;
+  const isAdmin = isAuthenticated && localStorage.getItem('isAdmin') === 'true'; 
+  return { isAuthenticated, isAdmin };
+};
+
 // Fonction d'initialisation de l'application
 function initApp() {
   // Vérifier si l'utilisateur est sur la page de connexion
   if (document.getElementById('login-form')) {
     setupLoginForm();
   } else {
-    // Vérifier si l'utilisateur est authentifié comme admin
-    const isAdmin = localStorage.getItem('isAdmin') === 'true';
-    
+    // Vérifier l'authentification et l'état admin
+    const { isAuthenticated, isAdmin } = window.checkAuthentication();
+
     // Initialiser les contrôleurs
     initTravaux();
     setupModalButtons();
     handleContactForm();
-    
-    // Exposer les fonctions de mise à jour de l'interface
-    window.updateGalleryView = function(travaux) {
-      if (window.afficherGaleriePrincipale) {
-        window.afficherGaleriePrincipale(travaux);
-      }
-    };
-    
+
+    // Initialiser l'UI d'authentification
+    setupAuthenticationUI();
+
     // Activer le mode édition si l'utilisateur est admin
     if (isAdmin) {
       toggleEditMode(true);
       console.log('✅ Mode édition activé');
     }
-    
-    // Fonction helper pour faire un checkAuth n'importe où dans l'application
-    window.checkAuthentication = function() {
-      const token = localStorage.getItem('token');
-      const isAdmin = localStorage.getItem('isAdmin') === 'true';
-      return { isAuthenticated: !!token, isAdmin };
-    };
   }
 }
 
