@@ -30,6 +30,5 @@ export async function fetchCategories() {
     throw new Error('Erreur lors de la récupération des catégories');
   }
   const data = await response.json();
-  console.log(data);
   return data;
 }

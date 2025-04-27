@@ -2,7 +2,6 @@ import { getUniqueCategories } from '../models/categoryModel.js';
 import { confirmerSuppression } from '../controllers/travauxController.js';
 import { modalStateManager } from '../utils/modalState.js';
 
-
 export function chargerGalerieModal(data) {
     const modalgalery = document.getElementById("galery-modal");
     
@@ -60,21 +59,6 @@ export function chargerGalerieModal(data) {
     renderCategorySelect(data);
 }
 
-// Fonction pour activer/désactiver le mode édition
-export function toggleEditMode(activate = true) {
-    const btnModifier = document.getElementById('btnModifier');
-    const banner = document.getElementById('banner');
-    
-    if (activate) {
-        // Activer le mode édition
-        if (btnModifier) btnModifier.classList.remove('display-none');
-        if (banner) banner.classList.remove('display-none');
-    } else {
-        // Désactiver le mode édition
-        if (btnModifier) btnModifier.classList.add('display-none');
-        if (banner) banner.classList.add('display-none');
-    }
-}
 
 // Fonction pour mettre à jour les affichages après modification
 export function updateModalAfterChange(data) {

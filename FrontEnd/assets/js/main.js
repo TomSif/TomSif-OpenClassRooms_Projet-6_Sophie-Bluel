@@ -1,7 +1,7 @@
 import { initTravaux } from './controllers/travauxController.js';
 import { setupLoginForm } from './controllers/loginController.js';
 import { setupModalButtons } from './controllers/modalController.js';
-import { toggleEditMode } from './views/modalView.js';
+import { toggleEditMode, setupAuthenticationUI } from './views/adminView.js';
 import { confirmerSuppression } from './controllers/travauxController.js';
 import { handleContactForm } from './controllers/formController.js';
 
@@ -36,7 +36,7 @@ function initApp() {
     setupAuthenticationUI();
 
     // Activer le mode édition si l'utilisateur est admin
-    if (isAdmin) {
+    if (isAdmin && isAuthenticated) {
       toggleEditMode(true);
       console.log('✅ Mode édition activé');
     }

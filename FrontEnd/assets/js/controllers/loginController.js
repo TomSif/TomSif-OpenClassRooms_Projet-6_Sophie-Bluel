@@ -13,6 +13,7 @@ export function setupLoginForm() {
     const password = document.getElementById('password').value;
     try {
       const data = await loginUser(email, password);
+      console.log("Réponse de l'API:", data); // Pour déboguer
       localStorage.setItem('token', data.token);
       localStorage.setItem('isAdmin', 'true');
       Toast.success('Connexion réussie !');

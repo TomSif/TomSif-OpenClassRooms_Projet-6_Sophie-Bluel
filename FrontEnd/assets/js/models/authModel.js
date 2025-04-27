@@ -10,6 +10,6 @@ export async function loginUser(email, password) {
   if (!response.ok) {
     throw new Error('Email ou mot de passe incorrect');
   }
-
+  
   return await response.json();
 }
