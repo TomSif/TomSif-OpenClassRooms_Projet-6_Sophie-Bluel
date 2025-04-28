@@ -14,15 +14,14 @@ export function setupLoginForm() {
     try {
       const data = await loginUser(email, password);
       console.log("Réponse de l'API:", data); // Pour déboguer
-      localStorage.setItem('token', data.token);
-      localStorage.setItem('isAdmin', 'true');
+      sessionStorage.setItem('token', data.token);
       Toast.success('Connexion réussie !');
       // Animation d'entrée
       setTimeout(() => {
         window.location.href = '../index.html';
       }, 1000);
     } catch (error) {
-      Toast.error("'Email ou mot de passe incorrect");
+      Toast.error("Email ou mot de passe incorrect");
     }
   });
 }

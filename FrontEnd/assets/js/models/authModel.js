@@ -1,3 +1,5 @@
+import { Toast } from '../views/toast.js';
+
 const LOGIN_URL = 'http://localhost:5678/api/users/login';
 
 export async function loginUser(email, password) {
@@ -8,7 +10,9 @@ export async function loginUser(email, password) {
   });
 
   if (!response.ok) {
+    Toast.error("Email ou mot de passe incorrect");
     throw new Error('Email ou mot de passe incorrect');
+    
   }
   
   return await response.json();

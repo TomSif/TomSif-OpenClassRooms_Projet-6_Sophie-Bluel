@@ -11,12 +11,9 @@ window.confirmerSuppression = confirmerSuppression;
 console.log('✅ main.js chargé');
 
 // Fonction helper pour vérifier l'authentification et le statut admin
-window.checkAuthentication = function() {
-  const token = localStorage.getItem('token');
-  const isAuthenticated = !!token;
-  const isAdmin = isAuthenticated && localStorage.getItem('isAdmin') === 'true'; 
-  return { isAuthenticated, isAdmin };
-};
+window.checkAuthentication = () => ({
+  isAdmin: !!sessionStorage.getItem('token')
+});
 
 // Fonction d'initialisation de l'application
 function initApp() {
@@ -25,7 +22,7 @@ function initApp() {
     setupLoginForm();
   } else {
     // Vérifier l'authentification et l'état admin
-    const { isAuthenticated, isAdmin } = window.checkAuthentication();
+    const { isAdmin } = window.checkAuthentication();
 
     // Initialiser les contrôleurs
     initTravaux();
@@ -36,7 +33,7 @@ function initApp() {
     setupAuthenticationUI();
 
     // Activer le mode édition si l'utilisateur est admin
-    if (isAdmin && isAuthenticated) {
+    if (isAdmin) {
       toggleEditMode(true);
       console.log('✅ Mode édition activé');
     }
