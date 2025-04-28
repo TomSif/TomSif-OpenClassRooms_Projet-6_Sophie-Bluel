@@ -88,7 +88,9 @@ export function setupModalButtons() {
         }},
         { element: elements.openSecondaryBtn, event: 'click', handler: openSecondaryModal },
         { element: elements.closeSecondaryBtn, event: 'click', handler: closeSecondaryModal },
-        { element: elements.closeFromSecondary, event: 'click', handler: closeAllModals }
+        { element: elements.closeFromSecondary, event: 'click', handler: closeAllModals },
+        { element: elements.secondaryModal, event: 'click', handler: (e) => {
+            if (e.target === elements.secondaryModal) closeSecondaryModal();}}
     ];
 
     // Ajouter les écouteurs d'événements

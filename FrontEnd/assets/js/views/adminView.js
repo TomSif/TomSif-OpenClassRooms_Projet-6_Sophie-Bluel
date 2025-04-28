@@ -28,7 +28,11 @@ export function toggleEditMode(activate = true) {
 
 // Configuration de l'interface utilisateur en fonction de l'authentification
 export function setupAuthenticationUI() {
-    const isAdmin = localStorage.getItem('isAdmin') === 'true';
+    const isAdmin = !!sessionStorage.getItem('token');
+    // Stocker également cette valeur dans localStorage si vous en avez besoin ailleurs
+    if (isAdmin) {
+        localStorage.setItem('isAdmin', 'true');
+    }
     
     if (isAdmin) {
         if (elements.banner) elements.banner.classList.remove('display-none');
@@ -54,7 +58,7 @@ export function setupAuthenticationUI() {
 
 function handleLogout(e) {
     e.preventDefault();
-    localStorage.removeItem('token');
+    sessionStorage.removeItem('token'); // Supprimer du sessionStorage où il est réellement stocké
     localStorage.removeItem('isAdmin');
     
     if (elements.btnModifier) elements.btnModifier.classList.add('display-none');

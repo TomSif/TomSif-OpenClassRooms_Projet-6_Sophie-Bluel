@@ -30,7 +30,15 @@ export async function initTravaux() {
 }
 
 export async function confirmerSuppression(workId) {
-  const token = localStorage.getItem("token");
+  const token = sessionStorage.getItem("token");
+
+  if (!token) {
+    Toast.error("Token manquant, action non autorisée");
+    return;
+  }
+
+  console.log('Token:', token); // Vérification du token
+
   try {
     await deleteWorkById(workId, token); // suppression sur le serveur
 
@@ -40,13 +48,14 @@ export async function confirmerSuppression(workId) {
     // Mettre à jour les vues à partir du tableau local modifié
     renderGalerie(window.travaux);
     chargerGalerieModal(window.travaux);
-    Toast.success("le travail a bien été supprimé");
+    Toast.success("Le travail a bien été supprimé");
     renderCategoryButtons(window.travaux, (filteredWorks) => {
       renderGalerie(filteredWorks);
     });
 
   } catch (error) {
     Toast.error('Impossible de supprimer l\'image.');
+    console.error('Erreur lors de la suppression:', error);
   }
 }
 

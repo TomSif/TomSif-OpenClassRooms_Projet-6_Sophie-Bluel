@@ -12,8 +12,12 @@ export async function loginUser(email, password) {
   if (!response.ok) {
     Toast.error("Email ou mot de passe incorrect");
     throw new Error('Email ou mot de passe incorrect');
-    
   }
+
+  const data = await response.json();
   
-  return await response.json();
+  // Stocker le token dans le sessionStorage
+  sessionStorage.setItem('token', data.token);
+  
+  return data; // Retourner les données pour d'autres utilisations si nécessaire
 }

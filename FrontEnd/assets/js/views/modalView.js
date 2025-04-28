@@ -1,12 +1,13 @@
 import { getUniqueCategories } from '../models/categoryModel.js';
 import { confirmerSuppression } from '../controllers/travauxController.js';
 import { modalStateManager } from '../utils/modalState.js';
+import { Toast } from './toast.js';
 
 export function chargerGalerieModal(data) {
     const modalgalery = document.getElementById("galery-modal");
     
     if (!modalgalery) {
-        console.error("Élément galery-modal non trouvé");
+        Toast.error("Élément galery-modal non trouvé");
         return;
     }
     
@@ -41,6 +42,7 @@ export function chargerGalerieModal(data) {
         trash.className = 'fa-solid fa-trash';
         trash.setAttribute('aria-label', `Supprimer ${travail.title || 'ce travail'}`);
         trash.addEventListener('click', () => {
+          console.log('ID du travail à supprimer:', travail.id); // Vérification de l'ID
           confirmerSuppression(travail.id);
       });
 
@@ -89,7 +91,7 @@ export function updateWorksGallery(travaux) {
 export function renderCategorySelect(travaux) {
   const select = document.getElementById('categorie');
   if (!select) {
-    console.warn('Le select #categorie est introuvable dans le DOM.');
+    Toast.error('Le select #categorie est introuvable dans le DOM.');
     return;
   } 
 

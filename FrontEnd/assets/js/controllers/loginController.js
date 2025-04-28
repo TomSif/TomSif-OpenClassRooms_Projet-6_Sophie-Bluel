@@ -14,8 +14,9 @@ export function setupLoginForm() {
     try {
       const data = await loginUser(email, password);
       sessionStorage.setItem('token', data.token);
+      console.log(data.token);
       Toast.success('Connexion réussie !');
-      // Animation d'entrée
+      // // Animation d'entrée
       setTimeout(() => {
         window.location.href = '../index.html';
       }, 1000);
