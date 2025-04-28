@@ -13,7 +13,6 @@ export function setupLoginForm() {
     const password = document.getElementById('password').value;
     try {
       const data = await loginUser(email, password);
-      console.log("Réponse de l'API:", data); // Pour déboguer
       sessionStorage.setItem('token', data.token);
       Toast.success('Connexion réussie !');
       // Animation d'entrée
