@@ -1,4 +1,4 @@
-import { getUniqueCategories } from '../models/categoryModel.js';
+import { fetchCategories } from '../models/categoryModel.js'; 
 import { confirmerSuppression } from '../controllers/travauxController.js';
 import { modalStateManager } from '../utils/modalState.js';
 import { Toast } from './toast.js';
@@ -88,25 +88,29 @@ export function updateWorksGallery(travaux) {
   
 
 //Fonction d'affichage des categories dans le menu select
-export function renderCategorySelect(travaux) {
+export async function renderCategorySelect() {
   const select = document.getElementById('categorie');
   if (!select) {
     Toast.error('Le select #categorie est introuvable dans le DOM.');
     return;
-  } 
+  }
 
-  const uniqueCategories = getUniqueCategories(travaux);
+  try {
+    const categories = await fetchCategories();
 
-  select.innerHTML = '<option value="">Choisir une catégorie</option>';
+    select.innerHTML = '<option value="">Choisir une catégorie</option>';
 
-  uniqueCategories.forEach(cat => {
-    const option = document.createElement('option');
-    option.value = cat.id;
-    option.textContent = cat.name;
-    select.appendChild(option);
-  });
+    categories.forEach(cat => {
+      const option = document.createElement('option');
+      option.value = cat.id;
+      option.textContent = cat.name;
+      select.appendChild(option);
+    });
+  } catch (e) {
+    Toast.error('Impossible de charger les catégories dans le formulaire.');
+    console.error('Erreur lors du chargement des catégories :', e);
+  }
 }
-
 
 //fonction pour fermer la deuxième modale quand l'upload s'est bien déroulé.
 export function fermerSecondaryModal() {

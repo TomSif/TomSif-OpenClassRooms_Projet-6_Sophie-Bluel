@@ -1,10 +1,10 @@
-import { fetchCategories } from '../models/categoryModel.js';
+import { getUniqueCategories } from '../models/categoryModel.js';
 
 export async function renderCategoryButtons(travaux, renderGalerie) {
   const menu = document.querySelector('#menu-categories');
   if (!menu) return;
 
-  const uniqueCategories = await fetchCategories();
+  const uniqueCategories =  getUniqueCategories(travaux);
 
   menu.innerHTML = '';
 

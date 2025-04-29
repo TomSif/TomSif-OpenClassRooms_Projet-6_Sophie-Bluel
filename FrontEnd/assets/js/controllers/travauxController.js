@@ -115,7 +115,7 @@ export async function handleWorkUpload(formElement) {
     Toast.error('❌ Erreur lors de l’upload du travail');
   }
 }
-  
+
 // Utilisation d'une fonction pour initialiser les écouteurs liés au fichier
 export function initFileInput() {
   const fileInput = document.getElementById("file-input");
