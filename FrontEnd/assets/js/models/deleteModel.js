@@ -9,7 +9,7 @@
  * @default
  */
 // const API_BASE_URL = 'http://localhost:5678/api';
-const API_BASE_URL = 'https://tomsif-openclassrooms-projet-6-sophie.onrender.com';
+const API_BASE_URL = 'https://tomsif-openclassrooms-projet-6-sophie.onrender.com/api';
 
 /**
  * Deletes a work item by ID using authentication token.
