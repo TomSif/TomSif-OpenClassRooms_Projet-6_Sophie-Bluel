@@ -1,8 +1,17 @@
+/**
+ * Login controller module handling authentication form setup.
+ * @module controllers/loginController
+ */
+
 import { loginUser } from '../models/authModel.js';
 import { Toast } from "../views/toast.js";
 
+/**
+ * Sets up the login form with submission handling.
+ * @function setupLoginForm
+ * @export
+ */
 export function setupLoginForm() {
-
   const form = document.getElementById('login-form');
   if (!form) return;
 
@@ -16,7 +25,7 @@ export function setupLoginForm() {
       sessionStorage.setItem('token', data.token);
       console.log(data.token);
       Toast.success('Connexion réussie !');
-      // // Animation d'entrée
+      // Entry animation delay
       setTimeout(() => {
         window.location.href = '../index.html';
       }, 1000);
@@ -26,7 +35,11 @@ export function setupLoginForm() {
   });
 }
 
-// fonction pour envoyer message lors du click sur password oublié
+/**
+ * Handles "forgot password" click event.
+ * @private
+ * @type {HTMLElement}
+ */
 const forgetPassword = document.getElementById('forgetPassword');
 if(forgetPassword){
   forgetPassword.addEventListener('click', ()=> {

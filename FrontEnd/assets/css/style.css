@@ -125,7 +125,7 @@ nav ul {
 	display: flex;
 	align-items: center;
 	list-style-type: none;
-	gap: 2.5rem;
+	gap: 1rem;
 
 
 }
@@ -136,6 +136,9 @@ nav li a{
 	font-family: 'Work Sans', sans-serif;
 	color: #000000;
 	font-weight: 400;
+	display: inline-block;
+  	min-width: 68px; 
+	text-align: center;
 	  
 }
 
@@ -149,7 +152,9 @@ nav li a img{
 	height: 19px;
 	border: 1px solid transparent;
 }
-
+.insta{
+	min-width: 19PX;
+}
 .insta:active img, .insta:hover img{
 	border: 1px solid black;
 	filter:sepia(1);
@@ -300,17 +305,24 @@ input[type="submit"]:hover{
 }
 
 footer{
-	position: fixed;
-	bottom: 1rem;
-	right: 107px;
 	width: 100%;
+	max-width: 1140px;
+	margin: auto;
+
 }
 
 footer nav ul {
 	display: flex;
 	justify-content: flex-end;
-	margin: 2em
+	margin: 2em;
+	font-family: 'Work-Sans', sans-serif;
+	font-weight: lighter;
 }
+
+footer nav ul li{
+	margin-right: 7rem;
+}
+
 
 /* +-----------------------------------------------------------+
                        login css FILE
@@ -704,9 +716,9 @@ select {
 	position: absolute;
 	bottom: 0;
 	left: 0;
-	height: 3px; /* Hauteur de la barre de progression */
-	width: 0%; /* Commence à 100% et diminue */
-	background-color: rgba(255, 255, 255, 0.7); /* Couleur de la barre */
+	height: 3px; 
+	width: 0%; 
+	background-color: rgba(255, 255, 255, 0.7); 
   }
 
   .toast-success {

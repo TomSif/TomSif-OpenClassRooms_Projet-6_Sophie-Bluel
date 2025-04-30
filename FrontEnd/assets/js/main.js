@@ -1,3 +1,8 @@
+/**
+ * Main application entry point.
+ * @module main
+ */
+
 import { initTravaux } from './controllers/travauxController.js';
 import { setupLoginForm } from './controllers/loginController.js';
 import { setupModalButtons } from './controllers/modalController.js';
@@ -5,40 +10,54 @@ import { toggleEditMode, setupAuthenticationUI } from './views/adminView.js';
 import { confirmerSuppression } from './controllers/travauxController.js';
 import { handleContactForm } from './controllers/formController.js';
 
-
+/**
+ * Global reference to the deletion confirmation function.
+ * @global
+ * @function confirmerSuppression
+ */
 window.confirmerSuppression = confirmerSuppression;
 
-console.log('✅ main.js chargé');
+console.log('✅ main.js loaded');
 
-// Fonction helper pour vérifier l'authentification et le statut admin
+/**
+ * Helper function to check authentication status and admin privileges.
+ * @global
+ * @function checkAuthentication
+ * @returns {Object} Authentication status object
+ * @property {boolean} isAdmin - Indicates if user has admin privileges
+ */
 window.checkAuthentication = () => ({
   isAdmin: !!sessionStorage.getItem('token')
 });
 
-// Fonction d'initialisation de l'application
+/**
+ * Initializes the application by setting up controllers and UI based on authentication status.
+ * @function initApp
+ * @listens DOMContentLoaded
+ */
 function initApp() {
-  // Vérifier si l'utilisateur est sur la page de connexion
+  // Check if user is on login page
   if (document.getElementById('login-form')) {
     setupLoginForm();
   } else {
-    // Vérifier l'authentification et l'état admin
+    // Check authentication and admin status
     const { isAdmin } = window.checkAuthentication();
 
-    // Initialiser les contrôleurs
+    // Initialize controllers
     initTravaux();
     setupModalButtons();
     handleContactForm();
 
-    // Initialiser l'UI d'authentification
+    // Initialize authentication UI
     setupAuthenticationUI();
 
-    // Activer le mode édition si l'utilisateur est admin
+    // Enable edit mode if user is admin
     if (isAdmin) {
       toggleEditMode(true);
-      console.log('✅ Mode édition activé');
+      console.log('✅ Edit mode activated');
     }
   }
 }
 
-// Attendre que le DOM soit complètement chargé avant d'initialiser l'application
+// Wait for DOM to be fully loaded before initializing the application
 document.addEventListener('DOMContentLoaded', initApp);

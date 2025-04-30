@@ -1,5 +1,18 @@
+/**
+ * Toast notification module for displaying temporary messages.
+ * @module views/toast
+ */
+
 import { modalStateManager } from '../utils/modalState.js';
 
+/**
+ * Toast notification system with multiple message types and display options.
+ * @namespace Toast
+ * @property {Object} types - Available toast types
+ * @property {string} types.SUCCESS - Success message type
+ * @property {string} types.ERROR - Error message type
+ * @property {string} types.INFO - Info message type
+ */
 export const Toast = {
   types: {
     SUCCESS: 'success',
@@ -8,38 +21,39 @@ export const Toast = {
   },
 
   /**
-   * Affiche un message toast en tenant compte de l'état de la modale
-   * @param {string} message - Le message à afficher
-   * @param {string} type - Le type de message (success, error, info)
-   * @param {number} duration - Durée d'affichage en ms (par défaut 1500ms)
+   * Displays a toast message considering modal state.
+   * @function show
+   * @memberof Toast
+   * @param {string} message - Message to display
+   * @param {string} [type=this.types.INFO] - Type of message (success, error, info)
+   * @param {number} [duration=1300] - Display duration in milliseconds
    */
-
   show(message, type = this.types.INFO, duration = 1300) {
     const toast = document.createElement('div');
     toast.className = `toast toast-${type}`;
     
-    // Création du contenu du toast (texte)
+    // Create toast content (text)
     const messageElement = document.createElement('div');
     messageElement.className = 'toast-message';
     messageElement.textContent = message;
     toast.appendChild(messageElement);
     
-    // Création de la barre de progression
+    // Create progress bar
     const progressBar = document.createElement('div');
     progressBar.className = 'toast-progress';
     toast.appendChild(progressBar);
 
-    // Récupérer l'état actuel
+    // Get current modal state
     const { activeModal } = modalStateManager.getState();
     let container = null;
 
-    // Vérifier si les modales existent ET sont ouvertes (visibles)
+    // Check if modals exist AND are open (visible)
     const secondaryModal = document.querySelector('.secondary-modal:not(.display-none)');
     const mainModal = document.querySelector('#modal:not(.hidden)');
     
-    // Déterminer où placer le toast en fonction de l'état réel des modales, pas seulement de l'état enregistré
+    // Determine toast placement based on actual modal state
     if (activeModal === 'secondary' && secondaryModal) {
-      // Vérifier que la modale secondaire est réellement ouverte
+      // Verify secondary modal is actually open
       if (secondaryModal.open) {
         container = secondaryModal.querySelector('.toast-container');
         if (!container) {
@@ -49,7 +63,7 @@ export const Toast = {
         }
       }
     } else if (activeModal === 'main' && mainModal) {
-      // Vérifier que la modale principale est réellement ouverte
+      // Verify main modal is actually open
       if (mainModal.open) {
         container = mainModal.querySelector('.toast-container');
         if (!container) {
@@ -60,7 +74,7 @@ export const Toast = {
       }
     }
 
-    // Si aucune modale n'est active ou si les modales sont fermées, utiliser le body
+    // If no active modal or modals are closed, use body
     if (!container) {
       container = document.querySelector('body > .toast-container');
       if (!container) {
@@ -70,18 +84,18 @@ export const Toast = {
       }
     }
 
-    // Insertion du toast
+    // Insert toast
     container.appendChild(toast);
 
-    // Animation d'apparition du toast
+    // Toast appearance animation
     setTimeout(() => {
       toast.classList.add('show');
-      // Animation de la barre de progression
+      // Progress bar animation
       progressBar.style.transition = `width ${duration-80}ms linear`;
-      progressBar.style.width = '100%';  // Commence plein et se vide
+      progressBar.style.width = '100%';  // Starts full and empties
     }, 10);
 
-    // Disparition du toast après la durée spécifiée
+    // Toast disappearance after specified duration
     setTimeout(() => {
       toast.classList.remove('show');
       
@@ -89,7 +103,7 @@ export const Toast = {
         toast.removeEventListener('transitionend', handleTransitionEnd);
         toast.remove();
         
-        // Ne supprimer le conteneur que s'il est vide
+        // Only remove container if empty
         if (container && container.children.length === 0 && container.parentNode) {
           container.remove();
         }
@@ -99,14 +113,35 @@ export const Toast = {
     }, duration);
   },
 
+  /**
+   * Displays a success toast message.
+   * @function success
+   * @memberof Toast
+   * @param {string} message - Success message to display
+   * @param {number} [duration] - Optional display duration
+   */
   success(message, duration) {
     this.show(message, this.types.SUCCESS, duration);
   },
 
+  /**
+   * Displays an error toast message.
+   * @function error
+   * @memberof Toast
+   * @param {string} message - Error message to display
+   * @param {number} [duration] - Optional display duration
+   */
   error(message, duration) {
     this.show(message, this.types.ERROR, duration);
   },
 
+  /**
+   * Displays an info toast message.
+   * @function info
+   * @memberof Toast
+   * @param {string} message - Info message to display
+   * @param {number} [duration] - Optional display duration
+   */
   info(message, duration) {
     this.show(message, this.types.INFO, duration);
   }

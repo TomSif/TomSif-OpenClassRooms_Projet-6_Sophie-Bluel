@@ -1,3 +1,8 @@
+/**
+ * Works controller module handling all work-related operations.
+ * @module controllers/travauxController
+ */
+
 import { fetchTravaux } from '../models/travauxModel.js';
 import { renderGalerie } from '../views/galleryView.js';
 import { chargerGalerieModal } from '../views/modalView.js';
@@ -10,6 +15,13 @@ import { afficherImagePreview, fermerSecondaryModal } from "../views/modalView.j
 import { modalStateManager } from "../utils/modalState.js"; 
 import { Toast } from '../views/toast.js';
 
+/**
+ * Initializes works data and renders views.
+ * @async
+ * @function initTravaux
+ * @export
+ * @throws {Error} When works initialization fails
+ */
 export async function initTravaux() {
   try {
     const travaux = await fetchTravaux();
@@ -20,7 +32,7 @@ export async function initTravaux() {
       renderGalerie(filtered);
     });
 
-    // Si modale ouverte → recharger aussi la galerie modale
+    // If modal is open → reload modal gallery too
     if (modalStateManager.getState().isOpen) {
       chargerGalerieModal(travaux);
     }
@@ -29,6 +41,14 @@ export async function initTravaux() {
   }
 }
 
+/**
+ * Handles work deletion with confirmation.
+ * @async
+ * @function confirmerSuppression
+ * @export
+ * @param {number} workId - ID of the work to delete
+ * @throws {Error} When deletion fails
+ */
 export async function confirmerSuppression(workId) {
   const token = sessionStorage.getItem("token");
 
@@ -37,15 +57,15 @@ export async function confirmerSuppression(workId) {
     return;
   }
 
-  console.log('Token:', token); // Vérification du token
+  console.log('Token:', token); // Token verification
 
   try {
-    await deleteWorkById(workId, token); // suppression sur le serveur
+    await deleteWorkById(workId, token); // server-side deletion
 
-    // Supprimer le travail localement (dans window.travaux)
+    // Remove work locally (from window.travaux)
     window.travaux = window.travaux.filter(work => work.id !== workId);
 
-    // Mettre à jour les vues à partir du tableau local modifié
+    // Update views with modified local array
     renderGalerie(window.travaux);
     chargerGalerieModal(window.travaux);
     Toast.success("Le travail a bien été supprimé");
@@ -59,6 +79,14 @@ export async function confirmerSuppression(workId) {
   }
 }
 
+/**
+ * Handles work upload process.
+ * @async
+ * @function handleWorkUpload
+ * @export
+ * @param {HTMLFormElement} formElement - The upload form element
+ * @throws {Error} When upload fails
+ */
 export async function handleWorkUpload(formElement) {
   const formData = new FormData(formElement);
   const token = window.localStorage.getItem('token');
@@ -75,10 +103,10 @@ export async function handleWorkUpload(formElement) {
   
     let categoryObj;
     try {
-      // Convertir categoryId en number pour la recherche
+      // Convert categoryId to number for search
       const categoryId = Number(newWork.categoryId);
       
-      // Trouver la catégorie correspondant à categoryId dans les travaux existants
+      // Find matching category in existing works
       categoryObj = window.uniqueCategories.find(cat => cat.id === categoryId);
   
       if (!categoryObj) {
@@ -87,16 +115,16 @@ export async function handleWorkUpload(formElement) {
         return;
       }
   
-      // Enrichir newWork avec la catégorie trouvée
+      // Enrich newWork with found category
       const newWorkWithCategory = {
         ...newWork,
         category: categoryObj
       };
   
-      // Ajouter le nouveau travail enrichi à window.travaux
+      // Add enriched work to window.travaux
       window.travaux.push(newWorkWithCategory);
   
-      // 🔁 Re-render des vues avec la nouvelle liste
+      // 🔁 Re-render views with updated list
       renderGalerie(window.travaux);
       chargerGalerieModal(window.travaux);
       renderCategoryButtons(window.travaux, (filteredWorks) => {
@@ -105,18 +133,22 @@ export async function handleWorkUpload(formElement) {
   
     } catch (innerErr) {
       console.error('Erreur lors de la mise à jour locale :', innerErr);
-      Toast.error("⚠️ Erreur dans l’affichage local");
+      Toast.error("⚠️ Erreur dans l'affichage local");
     }
   
-    formElement.reset(); // 🧼 Réinitialiser le formulaire
+    formElement.reset(); // 🧼 Reset form
   
   } catch (err) {
     console.error('Erreur upload:', err);
-    Toast.error('❌ Erreur lors de l’upload du travail');
+    Toast.error('❌ Erreur lors de l\'upload du travail');
   }
 }
 
-// Utilisation d'une fonction pour initialiser les écouteurs liés au fichier
+/**
+ * Initializes file input validation and preview.
+ * @function initFileInput
+ * @export
+ */
 export function initFileInput() {
   const fileInput = document.getElementById("file-input");
   if (fileInput) {
@@ -135,6 +167,11 @@ export function initFileInput() {
   }
 }
 
+/**
+ * Initializes work upload form submission.
+ * @function initUploadForm
+ * @export
+ */
 export function initUploadForm() {
   const form = document.getElementById('form-ajout-travail');
   if (!form) return;
@@ -145,12 +182,17 @@ export function initUploadForm() {
   });
 }
 
-// Initialisation des composants au chargement du DOM
+/**
+ * Initializes all works-related components.
+ * @function initTravauxComponents
+ * @export
+ */
 export function initTravauxComponents() {
   initFileInput();
   initUploadForm();
 }
 
+// Initialize components when DOM is loaded
 document.addEventListener("DOMContentLoaded", () => {
   initTravauxComponents();
 });

@@ -1,8 +1,25 @@
+/**
+ * Modal controller module handling modal dialog interactions and state management.
+ * @module controllers/modalController
+ */
+
 import { chargerGalerieModal } from '../views/modalView.js';
 import { modalStateManager } from '../utils/modalState.js'; 
 
+/**
+ * Sets up modal buttons and event handlers.
+ * @function setupModalButtons
+ * @export
+ * @returns {Object} Public modal control functions
+ * @property {function} openMainModal - Opens the main modal
+ * @property {function} fermerModal - Closes the main modal
+ * @example
+ * const modalControls = setupModalButtons();
+ * // Can use returned functions if needed
+ * modalControls.openMainModal();
+ */
 export function setupModalButtons() {
-    // Regrouper toutes les sélections DOM
+    // Group all DOM selections
     const elements = {
         mainModal: document.getElementById('modal'),
         secondaryModal: document.getElementById('secondary-modal'),
@@ -16,7 +33,11 @@ export function setupModalButtons() {
         galleryModal: document.getElementById('galery-modal')
     };
 
-    // Fonctions principales
+    /**
+     * Opens the main modal and loads gallery content if needed.
+     * @function openMainModal
+     * @private
+     */
     function openMainModal() {
         if (!elements.mainModal) return;
         
@@ -29,6 +50,11 @@ export function setupModalButtons() {
         }
     }
 
+    /**
+     * Closes the main modal and resets state.
+     * @function fermerModal
+     * @private
+     */
     function fermerModal() {
         if (!elements.mainModal) return;
         
@@ -39,6 +65,11 @@ export function setupModalButtons() {
         modalStateManager.resetGalerie();
     }
 
+    /**
+     * Opens the secondary modal.
+     * @function openSecondaryModal
+     * @private
+     */
     function openSecondaryModal() {
         if (elements.secondaryModal) {
             elements.secondaryModal.classList.remove("display-none");
@@ -47,39 +78,47 @@ export function setupModalButtons() {
         }
     }
 
+    /**
+     * Closes the secondary modal and manages state transition.
+     * @function closeSecondaryModal
+     * @private
+     */
     function closeSecondaryModal() {
         if (elements.secondaryModal) {
-            // Ajouter le nettoyage des conteneurs toast ici
+            // Clean up toast containers
             const toastContainers = elements.secondaryModal.querySelectorAll(".toast-container");
             toastContainers.forEach(container => container.remove());
                 
             elements.secondaryModal.close();
             elements.secondaryModal.classList.add("display-none");
     
-            // Vérifier si la modale principale est toujours ouverte
+            // Check if main modal is still open
             const mainIsStillOpen = elements.mainModal && !elements.mainModal.classList.contains('hidden');
     
             modalStateManager.updateState({
                 activeModal: mainIsStillOpen ? 'main' : null,
-                isOpen: mainIsStillOpen // false si tout est fermé
+                isOpen: mainIsStillOpen // false if everything is closed
             });
         }
     }
     
-
+    /**
+     * Closes all modals and resets state.
+     * @function closeAllModals
+     * @private
+     */
     function closeAllModals() {
         closeSecondaryModal();
         fermerModal();
-        // Ajouter le nettoyage des conteneurs toast ici
+        // Clean up toast containers
         const toastContainers = elements.secondaryModal.querySelectorAll(".toast-container");
         toastContainers.forEach(container => container.remove());
         
-        // Réinitialisation claire de l’état
+        // Clear state reset
         modalStateManager.updateState({ isOpen: false, activeModal: null });
     }
 
-
-    // Configuration des écouteurs d'événements
+    // Configure event listeners
     const eventListeners = [
         { element: elements.btnModifier, event: 'click', handler: openMainModal },
         { element: elements.closeBtn, event: 'click', handler: fermerModal },
@@ -93,13 +132,12 @@ export function setupModalButtons() {
             if (e.target === elements.secondaryModal) closeSecondaryModal();}}
     ];
 
-    // Ajouter les écouteurs d'événements
+    // Add event listeners
     eventListeners.forEach(({ element, event, handler }) => {
         if (element) element.addEventListener(event, handler);
     });
 
-
-    // Retourner les fonctions publiques
+    // Return public functions
     return {
         openMainModal,
         fermerModal,

@@ -1,8 +1,22 @@
-import { fetchCategories } from '../models/categoryModel.js'; 
+/**
+ * Modal view module handling all modal-related UI operations.
+ * @module views/modalView
+ */
+
+import { fetchCategories } from '../models/categoryModel.js';
 import { confirmerSuppression } from '../controllers/travauxController.js';
 import { modalStateManager } from '../utils/modalState.js';
 import { Toast } from './toast.js';
 
+/**
+ * Loads and displays works in the modal gallery.
+ * @function chargerGalerieModal
+ * @export
+ * @param {Array} data - Array of work items to display
+ * @property {string} data[].id - Work item ID
+ * @property {string} data[].imageUrl - URL of the work image
+ * @property {string} data[].title - Title of the work
+ */
 export function chargerGalerieModal(data) {
     const modalgalery = document.getElementById("galery-modal");
     
@@ -11,10 +25,10 @@ export function chargerGalerieModal(data) {
         return;
     }
     
-    // Vider la galerie avant d'ajouter de nouveaux éléments
+    // Clear gallery before adding new elements
     modalgalery.innerHTML = '';
   
-    // Vérifier que les données sont valides
+    // Validate input data
     if (!data || !Array.isArray(data) || data.length === 0) {
         const noContent = document.createElement('p');
         noContent.textContent = "Aucun travail disponible";
@@ -23,7 +37,7 @@ export function chargerGalerieModal(data) {
         return;
     }
 
-    // Créer les vignettes pour chaque travail
+    // Create thumbnails for each work item
     data.forEach(travail => {
         if (!travail || !travail.id || !travail.imageUrl) return;
         
@@ -31,29 +45,28 @@ export function chargerGalerieModal(data) {
         container.classList.add("thumbnail-container");
         container.dataset.id = travail.id;
   
-        // Créer l'image miniature
+        // Create thumbnail image
         const img = document.createElement('img');
         img.src = travail.imageUrl;
         img.alt = travail.title || 'Image sans titre';
         img.classList.add("thumbnail");
   
-        // Créer l'icône de suppression
+        // Create delete icon
         const trash = document.createElement('i');
         trash.className = 'fa-solid fa-trash';
         trash.setAttribute('aria-label', `Supprimer ${travail.title || 'ce travail'}`);
         trash.addEventListener('click', () => {
-          console.log('ID du travail à supprimer:', travail.id); // Vérification de l'ID
+          console.log('ID du travail à supprimer:', travail.id);
           confirmerSuppression(travail.id);
       });
 
-  
-        // Assembler les éléments
+        // Assemble elements
         container.appendChild(img);
         container.appendChild(trash);
         modalgalery.appendChild(container);
     });
     
-    // Mettre à jour l'état de la modale si le gestionnaire existe
+    // Update modal state if manager exists
     if (window.modalManager) {
         window.modalManager.updateModalState({ isLoaded: true });
     }
@@ -61,33 +74,52 @@ export function chargerGalerieModal(data) {
     renderCategorySelect(data);
 }
 
-
-// Fonction pour mettre à jour les affichages après modification
+/**
+ * Updates modal display after changes to work items.
+ * @function updateModalAfterChange
+ * @export
+ * @param {Array} data - Updated array of work items
+ */
 export function updateModalAfterChange(data) {
-    // Mettre à jour la galerie modale
+    // Update modal gallery
     chargerGalerieModal(data);
     
-    // Si une fonction existe pour mettre à jour la vue principale, l'utiliser
+    // Update main gallery view if available
     if (window.updateGalleryView && typeof window.updateGalleryView === 'function') {
         window.updateGalleryView(data);
     }
 }
 
-// modalviews.js
+/**
+ * Updates the main works gallery view.
+ * @function updateWorksGallery
+ * @export
+ * @param {Array} travaux - Array of work items
+ */
 export function updateWorksGallery(travaux) {
     if (window.updateGalleryView) {
       window.updateGalleryView(travaux);
     }
-  }
-  
-  export function updateModalGallery(travaux) {
+}
+
+/**
+ * Updates the modal gallery view.
+ * @function updateModalGallery
+ * @export
+ * @param {Array} travaux - Array of work items
+ */
+export function updateModalGallery(travaux) {
     if (typeof chargerGalerieModal === 'function') {
       chargerGalerieModal(travaux);
     }
-  }
-  
+}
 
-//Fonction d'affichage des categories dans le menu select
+/**
+ * Renders category options in the select dropdown.
+ * @async
+ * @function renderCategorySelect
+ * @export
+ */
 export async function renderCategorySelect() {
   const select = document.getElementById('categorie');
   if (!select) {
@@ -112,35 +144,44 @@ export async function renderCategorySelect() {
   }
 }
 
-//fonction pour fermer la deuxième modale quand l'upload s'est bien déroulé.
+/**
+ * Closes the secondary modal and resets its state.
+ * @function fermerSecondaryModal
+ * @export
+ */
 export function fermerSecondaryModal() {
   const secondaryModal = document.getElementById("secondary-modal");
   if (secondaryModal) {
     secondaryModal.close();
     secondaryModal.classList.add("display-none");
-    // Supprimer tous les conteneurs de toast dans la modale secondaire
+    // Remove all toast containers in secondary modal
     const toastContainers = secondaryModal.querySelectorAll(".toast-container");
     toastContainers.forEach(container => container.remove());
   }
 
-  // Réinitialiser les champs du formulaire
+  // Reset form fields
   const form = secondaryModal.querySelector("form");
   if (form) {
     form.reset();
   }
 
-  // Supprimer l'aperçu du fichier si nécessaire
+  // Remove file preview if exists
   const preview = secondaryModal.querySelector(".image-preview");
   if (preview) {
     preview.src = "";
     preview.remove(); 
   }
 
-   // Mettre à jour l'état de la modale dans le gestionnaire d'état
+   // Update modal state in state manager
    modalStateManager.updateState({ activeModal: "main" });
 }
 
-//Fonction d'affichage de la miniature via l'input file
+/**
+ * Displays a preview of the selected image file.
+ * @function afficherImagePreview
+ * @export
+ * @param {File} fichier - Image file to preview
+ */
 export function afficherImagePreview(fichier) {
   const reader = new FileReader();
 
@@ -160,4 +201,4 @@ export function afficherImagePreview(fichier) {
   };
 
   reader.readAsDataURL(fichier);
-}  
+}

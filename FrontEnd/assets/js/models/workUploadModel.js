@@ -1,5 +1,19 @@
+/**
+ * Work upload model module handling file upload operations.
+ * @module models/workUploadModel
+ */
+
+/**
+ * Uploads a work item to the API using FormData.
+ * @async
+ * @function uploadWork
+ * @export
+ * @param {FormData} formData - Form data containing the work item to upload
+ * @returns {Promise<Object>} The uploaded work item data
+ * @throws {Error} When authentication token is missing or upload fails
+ */
 export async function uploadWork(formData) {
-  const token = sessionStorage.getItem('token');  // Récupérer le token depuis sessionStorage
+  const token = sessionStorage.getItem('token');  // Retrieve token from sessionStorage
 
   if (!token) {
     throw new Error('Token manquant');
@@ -9,9 +23,9 @@ export async function uploadWork(formData) {
     const response = await fetch('http://localhost:5678/api/works', {
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${token}`, // Utiliser le token dans l'en-tête Authorization
+        Authorization: `Bearer ${token}`, // Use token in Authorization header
       },
-      body: formData, // FormData gère le Content-Type
+      body: formData, // FormData handles Content-Type automatically
     });
 
     if (!response.ok) {
