@@ -20,7 +20,7 @@ export async function uploadWork(formData) {
   }
 
   try {
-    const response = await fetch('http://localhost:5678/api/works', {
+    const response = await fetch('https://tomsif-openclassrooms-projet-6-sophie.onrender.com/works', {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${token}`, // Use token in Authorization header

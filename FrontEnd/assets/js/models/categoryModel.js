@@ -27,7 +27,8 @@ export function getUniqueCategories(travaux) {
  * @constant {string}
  * @default
  */
-const API_URL = 'http://localhost:5678/api/categories';
+// const API_URL = 'http://localhost:5678/api/categories';
+const API_URL = 'https://tomsif-openclassrooms-projet-6-sophie.onrender.com/categories';
 
 /**
  * Fetches categories from API.

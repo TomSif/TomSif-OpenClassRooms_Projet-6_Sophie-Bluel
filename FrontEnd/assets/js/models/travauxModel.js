@@ -8,7 +8,8 @@
  * @constant {string}
  * @default
  */
-const API_URL = 'http://localhost:5678/api/works';
+// const API_URL = 'http://localhost:5678/api/works';
+const API_URL = 'https://tomsif-openclassrooms-projet-6-sophie.onrender.com/works';
 
 /**
  * Fetches all work items from the API.

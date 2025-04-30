@@ -10,7 +10,8 @@ import { Toast } from '../views/toast.js';
  * @constant {string}
  * @default
  */
-const LOGIN_URL = 'http://localhost:5678/api/users/login';
+// const LOGIN_URL = 'http://localhost:5678/api/users/login';
+const LOGIN_URL = 'https://tomsif-openclassrooms-projet-6-sophie.onrender.com/users/login';
 
 /**
  * Authenticates a user with email and password.
