@@ -1,13 +1,13 @@
 # Portfolio Administration System
 
-![Project Banner](https://example.com/path/to/banner.png) <!-- Replace with your actual image if available -->
+![Project Banner](https://www.pexels.com/fr-fr/photo/lunettes-d-elevage-noir-devant-un-ordinateur-portable-577585/) <!-- Replace with your actual image if available -->
 
 ## Overview
 
 A modern web application for managing and displaying portfolio works with admin capabilities including authentication, work upload/edit/delete functionality, and category management.
 
 > ⚠️ **Disclaimer**:  
-> This repository is a **student project** carried out as part of the [OpenClassrooms Web Developer training program](https://openclassrooms.com/en/paths/717).  
+> This repository is a **student project** carried out as part of the [OpenClassrooms Web Developer training program](https://openclassrooms.com/fr/paths/900/projects/1157).  
 > It is **not intended for production use** and serves as an **exercise** to practice JavaScript (ES6+), API integration, and DOM manipulation using Vanilla JS.
 
 ## Key Features
@@ -29,20 +29,23 @@ A modern web application for managing and displaying portfolio works with admin 
   - Form validation
   - Image preview
 
-## Technology Stack
+## 🧪 Technologies Used
 
-### Frontend
-- **Core**: Vanilla JavaScript (ES6+)
-- **Architecture**: MVC Pattern
-- **Styling**: CSS (consider adding details if using preprocessors like SASS)
-- **Build**: ES Modules (native)
+- HTML5
+- SCSS
+- JavaScript (ES6+)
+- REST API
+- Vercel (frontend hosting)
+- Render (backend API hosting)
 
-### Backend (API)
-- **Base URL**: `http://localhost:5678/api`
-- **Endpoints**:
-  - Authentication: `/users/login`
-  - Works: `/works`
-  - Categories: `/categories`
+---
+
+## 🔗 Deployments
+
+- **Frontend**: https://tomsif-sophie-bluel.vercel.app  
+- **Backend API**: https://tomsif-openclassrooms-projet-6-sophie.onrender.com
+
+---
 
 ## Project Structure
 
@@ -81,18 +84,10 @@ src/
 
 2. Run the application:
    - Open `index.html` directly in your browser
-   - Ensure the API server is running at `http://localhost:5678`
+   - Ensure the API server is running at 'https://tomsif-openclassrooms-projet-6-sophie.onrender.com` , wait 30s to wake up the api.
 
 3. Admin access:
-   - Log in using the login form (credentials to be provided if available)
-
-## Installation
-
-### Prerequisites
-
-- Modern browser (Chrome, Firefox, Edge – latest versions)
-- Node.js (if using any build tools)
-- API server running on `localhost:5678`
+   - Log in using the login form (sophie.bluel@test.tld|S0phie)
 
 ## Contact
 
@@ -104,10 +99,5 @@ Project Link: [GitHub Repository](https://github.com/TomSif/TomSif-OpenClassRoom
 This project is provided for **educational purposes only** and may contain materials that belong to OpenClassrooms as part of their coursework.  
 Do not reuse or redistribute without proper attribution.
 
-## Contributing
 
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
-
-<!-- Optional: Add screenshots or a banner below -->
-<!-- ![App Screenshot](./assets/screenshot.png) -->
  
