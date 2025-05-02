@@ -195,8 +195,8 @@ export function afficherImagePreview(fichier) {
 
     const img = document.createElement('img');
     const nomFichier = fichier.name.replace(/\.[^/.]+$/, "");
-    img.src = nomFichier;
-    img.alt = 'Aperçu de l\'image';
+    img.src = e.target.result;
+    img.alt = nomFichier;
     img.classList.add('image-preview');
 
     imagePreviewDiv.appendChild(img);
