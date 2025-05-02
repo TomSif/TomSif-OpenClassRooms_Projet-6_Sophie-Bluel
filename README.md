@@ -1,6 +1,6 @@
 # Portfolio Administration System
 
-![Project Banner]('../Portfolio-architecte-sophie-bluel/FrontEnd/assets/images/Screenshot.png') <!-- Replace with your actual image if available -->
+![Project Banner](https://raw.githubusercontent.com/TomSif/TomSif-OpenClassRooms_Projet-6_Sophie-Bluel/main/FrontEnd/assets/images/Screenshot.png) <!-- Replace with your actual image if available -->
 
 ## Overview
 
