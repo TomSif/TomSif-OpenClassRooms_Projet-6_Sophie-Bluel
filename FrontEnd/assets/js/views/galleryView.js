@@ -16,9 +16,10 @@ export function renderGalerie(travaux) {
   const container = document.querySelector('.gallery');
   container.innerHTML = '';
   travaux.forEach(travail => {
+    const secureImageUrl = travail.imageUrl.replace('http://', 'https://');
     const figure = document.createElement('figure');
     figure.innerHTML = `
-      <img src="${travail.imageUrl}" alt="${travail.title}">
+      <img src="${secureImageUrl}" alt="${travail.title}">
       <figcaption>${travail.title}</figcaption>
     `;
     container.appendChild(figure);
