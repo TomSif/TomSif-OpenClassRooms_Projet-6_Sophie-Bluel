@@ -194,12 +194,21 @@ export function afficherImagePreview(fichier) {
     imagePreviewDiv.classList.add('image-preview-background');
 
     const img = document.createElement('img');
-    img.src = e.target.result;
+    const nomFichier = fichier.name.replace(/\.[^/.]+$/, "");
+    img.src = nomFichier;
     img.alt = 'Aperçu de l\'image';
     img.classList.add('image-preview');
 
     imagePreviewDiv.appendChild(img);
+
+    // Préremplir le champ titre si vide
+    const inputTitre = document.getElementById('labelTitle');
+    if (inputTitre && inputTitre.value.trim() === '') {
+      inputTitre.value = nomFichier;
+    }
   };
+
+
 
   reader.readAsDataURL(fichier);
 }
