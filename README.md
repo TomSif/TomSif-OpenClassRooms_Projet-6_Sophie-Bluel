@@ -1,6 +1,6 @@
 # Portfolio Administration System
 
-![Project Banner](https://www.pexels.com/fr-fr/photo/lunettes-d-elevage-noir-devant-un-ordinateur-portable-577585/) <!-- Replace with your actual image if available -->
+![Project Banner]('../Portfolio-architecte-sophie-bluel/FrontEnd/assets/images/Screenshot.png') <!-- Replace with your actual image if available -->
 
 ## Overview
 
@@ -42,7 +42,7 @@ A modern web application for managing and displaying portfolio works with admin 
 
 ## 🔗 Deployments
 
-- **Frontend**: https://tomsif-sophie-bluel.vercel.app  
+- **Frontend**: https://tom-sif-open-class-rooms-projet-6-sophie-bluel.vercel.app/index.html 
 - **Backend API**: https://tomsif-openclassrooms-projet-6-sophie.onrender.com
 
 ---
