@@ -47,7 +47,8 @@ export function chargerGalerieModal(data) {
   
         // Create thumbnail image
         const img = document.createElement('img');
-        img.src = travail.imageUrl;
+        const secureImageUrl = travail.imageUrl.replace('http://', 'https://');
+        img.src = secureImageUrl;
         img.alt = travail.title || 'Image sans titre';
         img.classList.add("thumbnail");
   
