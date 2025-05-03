@@ -31,3 +31,32 @@ export function validerFichierImage(fichier) {
 
   return { valide: true };
 }
+
+
+/**
+ * Valide les champs email et mot de passe du formulaire de connexion.
+ * Affiche des messages d'erreur via Toast selon les cas.
+ * @param {string} email - L'adresse email saisie.
+ * @param {string} password - Le mot de passe saisi.
+ * @returns {boolean} - Retourne true si les champs sont valides.
+ */
+export function validateLogin(email, password) {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  if (!email.trim()) {
+    Toast.error("Veuillez entrer une adresse email.");
+    return false;
+  }
+
+  if (!emailRegex.test(email)) {
+    Toast.error("L'adresse email n'est pas valide.");
+    return false;
+  }
+
+  if (!password.trim()) {
+    Toast.error("Veuillez entrer un mot de passe.");
+    return false;
+  }
+
+  return true;
+}

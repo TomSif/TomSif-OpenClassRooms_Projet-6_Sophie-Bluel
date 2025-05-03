@@ -3,8 +3,6 @@
  * @module models/authModel
  */
 
-import { Toast } from '../views/toast.js';
-
 /** 
  * API endpoint for user login
  * @constant {string}
@@ -31,7 +29,6 @@ export async function loginUser(email, password) {
   });
 
   if (!response.ok) {
-    Toast.error("Email ou mot de passe incorrect");
     throw new Error('Email ou mot de passe incorrect');
   }
 

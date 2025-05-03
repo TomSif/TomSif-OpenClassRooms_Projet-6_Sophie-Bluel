@@ -4,6 +4,7 @@
  */
 
 import { loginUser } from '../models/authModel.js';
+import { validateLogin } from '../utils/validation.js';
 import { Toast } from "../views/toast.js";
 
 /**
@@ -20,6 +21,9 @@ export function setupLoginForm() {
 
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
+
+    if(!validateLogin(email, password)) return;
+
     try {
       const data = await loginUser(email, password);
       sessionStorage.setItem('token', data.token);
