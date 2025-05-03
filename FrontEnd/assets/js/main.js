@@ -9,6 +9,7 @@ import { setupModalButtons } from './controllers/modalController.js';
 import { toggleEditMode, setupAuthenticationUI } from './views/adminView.js';
 import { confirmerSuppression } from './controllers/travauxController.js';
 import { handleContactForm } from './controllers/formController.js';
+import { setupAccessibleUploadLabel } from './utils/keyDownBtn.js';
 
 /**
  * Global reference to the deletion confirmation function.
@@ -56,6 +57,9 @@ function initApp() {
       toggleEditMode(true);
       console.log('✅ Edit mode activated');
     }
+
+    // Initialize key listener on label input-file
+    setupAccessibleUploadLabel();  
   }
 }
 
