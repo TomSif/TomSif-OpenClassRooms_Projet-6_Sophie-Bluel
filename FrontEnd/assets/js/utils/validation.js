@@ -3,7 +3,7 @@
  * @module utils/validation
  */
 
-import { Toast } from "../views/toast";
+import { Toast } from "../views/toast.js";
 
 /**
  * Validates an image file against type and size constraints.
